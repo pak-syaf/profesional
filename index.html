@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAK SYAFF CLASSROOM — Portal LKM Terpadu PGSD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        garuda: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                        },
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        textarea, input[type="text"], input[type="number"], input[type="url"], input[type="date"], select {
+            transition: all 0.2s ease;
+        }
+        textarea:focus, input:focus, select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14);
+        }
+
+        @media print {
+            body { background: white !important; }
+            .no-print { display: none !important; }
+            .main-workspace { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .lk-section { display: none !important; }
+            .lk-section.active-lk { display: block !important; box-shadow: none !important; border: none !important; padding: 0 !important; }
+            textarea { border: 1px solid #cbd5e1 !important; resize: none !important; overflow: visible !important; height: auto !important; }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 no-print"></div>
+
+    <!-- Mobile Top Header (Only visible on < lg screens) -->
+    <header class="lg:hidden bg-slate-900 text-white sticky top-0 z-30 shadow-md no-print">
+        <div class="px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <button id="mobileMenuBtn" class="p-2 -ml-2 rounded-lg text-slate-300 hover:bg-slate-800">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center text-slate-900 font-extrabold text-sm">
+                    PS
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-sm tracking-tight leading-none">PAK SYAFF CLASSROOM</h1>
+                    <p class="text-[10px] text-slate-400 mt-0.5" id="mobileCourseLabel">PKn × Basic Computer</p>
+                </div>
+            </div>
+            <div id="mobileSaveBadge" class="text-[11px] font-medium text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-2 py-1 rounded-md">
+                <i class="fa-solid fa-cloud-check"></i> Tersimpan
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- MAIN 2-COLUMN DASHBOARD LAYOUT -->
+    <!-- ========================================================================= -->
+    <div class="flex-1 max-w-[1440px] w-full mx-auto flex flex-col lg:flex-row">
+
+        <!-- ===================================================================== -->
+        <!-- KOLOM KIRI: FITUR KELAS, PENGALIH MATA KULIAH, TIMER & NAVIGASI LKM -->
+        <!-- ===================================================================== -->
+        <aside id="leftSidebar" class="fixed inset-y-0 left-0 z-40 w-80 bg-slate-900 text-slate-100 flex flex-col justify-between transform -translate-x-full transition-transform duration-200 ease-in-out lg:static lg:translate-x-0 lg:w-80 xl:w-[340px] lg:shrink-0 lg:min-h-screen lg:sticky lg:top-0 lg:h-screen overflow-y-auto no-print border-r border-slate-800 shadow-xl lg:shadow-none">
+
+            <div class="p-5 space-y-5">
+                <!-- Brand Identity: PAK SYAFF CLASSROOM -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 via-orange-500 to-rose-600 flex items-center justify-center text-slate-950 font-black text-lg shadow-lg shadow-orange-500/20">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h1 class="font-black text-white text-base tracking-wide leading-tight">PAK SYAFF<br><span class="text-amber-400 text-xs font-extrabold tracking-widest">CLASSROOM</span></h1>
+                        </div>
+                    </div>
+                    <button id="closeSidebarBtn" class="lg:hidden p-2 text-slate-400 hover:text-white rounded-lg">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- 1. Pemilih Mata Kuliah (2 LKM dalam 1 Pintu) -->
+                <div class="space-y-2">
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                        <span><i class="fa-solid fa-layer-group mr-1 text-amber-400"></i> Pilih Mata Kuliah</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full">2 Kelas Aktif</span>
+                    </div>
+                    <div class="grid grid-cols-1 gap-2">
+                        <button onclick="switchCourse('pkn')" id="btn-course-pkn" class="text-left p-3 rounded-xl border transition flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <div class="text-xs font-bold text-white truncate">PKn × Basic Computer</div>
+                                <div class="text-[11px] text-slate-400 truncate">Warga Digital Pancasilais (P1–P8)</div>
+                            </div>
+                        </button>
+
+                        <button onclick="switchCourse('bindo')" id="btn-course-bindo" class="text-left p-3 rounded-xl border transition flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="fa-solid fa-book-open-reader"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <div class="text-xs font-bold text-white truncate">Bahasa Indonesia & MMP</div>
+                                <div class="text-[11px] text-slate-400 truncate">Literasi Kelas Awal PGSD (LK 1–8)</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Progres Kelas & Auto-Save Status -->
+                <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3.5 space-y-2.5">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="font-semibold text-slate-300">Progres LKM Kelas Ini</span>
+                        <span id="courseProgressText" class="font-extrabold text-amber-400">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+                        <div id="courseProgressBar" class="bg-gradient-to-r from-amber-400 to-emerald-400 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div class="flex items-center justify-between pt-1 text-[11px] text-slate-400">
+                        <span id="saveStatus" class="text-emerald-400 font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-cloud-check"></i> Tersimpan otomatis
+                        </span>
+                        <span id="courseTimerPresetLabel">Sesi: 180m</span>
+                    </div>
+                </div>
+
+                <!-- 3. Navigasi Pertemuan / Materi (1 - 8) -->
+                <div class="space-y-2">
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                        <span><i class="fa-solid fa-list-check mr-1 text-amber-400"></i> Daftar Lembar Kerja</span>
+                        <span class="text-[10px] text-slate-500">Klik untuk buka</span>
+                    </div>
+                    <nav id="sidebarNavList" class="space-y-1 max-h-[270px] overflow-y-auto pr-1">
+                        <!-- Rendered dynamically per course -->
+                    </nav>
+                </div>
+
+                <!-- 4. Fitur Kelas & Alat Bantu -->
+                <div class="space-y-2 pt-2 border-t border-slate-800">
+                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        <i class="fa-solid fa-toolbox mr-1 text-amber-400"></i> Fitur & Alat Kelas
+                    </div>
+
+                    <!-- Timer Kelas Sinkron -->
+                    <div class="bg-slate-800/60 border border-slate-700/70 rounded-xl p-2.5 flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-xs">
+                            <i class="fa-regular fa-clock text-amber-400"></i>
+                            <span id="timerDisplay" class="font-mono font-bold text-sm text-white">180:00</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <button onclick="toggleTimer()" id="timerBtn" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-[11px] transition">Mulai</button>
+                            <button onclick="resetTimer()" class="p-1.5 text-slate-400 hover:text-white rounded-lg" title="Reset Timer"><i class="fa-solid fa-rotate-right text-xs"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Panduan / Rubrik / Studi Kasus -->
+                    <button onclick="openClassroomGuide()" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold rounded-xl flex items-center gap-2.5 transition">
+                        <i class="fa-solid fa-compass text-amber-400 w-4 text-center"></i>
+                        <span id="guideBtnLabel">Peta 8 Pertemuan & Rubrik</span>
+                    </button>
+
+                    <!-- Tombol Kumpulkan Tugas ke Google Drive -->
+                    <a href="https://drive.google.com/drive/folders/1dgEjMrXT3BaGOKDMj5pt1MmC-h75PGO3?usp=drive_link" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-3 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-xl flex items-center gap-2.5 transition shadow-sm">
+                        <i class="fa-brands fa-google-drive text-amber-200 w-4 text-center"></i>
+                        <span>Kumpulkan Tugas (Drive)</span>
+                    </a>
+
+                    <!-- Kolaborasi Kelompok JSON -->
+                    <div class="grid grid-cols-2 gap-1.5">
+                        <button onclick="exportJsonDraft()" class="py-2 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[11px] font-semibold rounded-xl flex items-center justify-center gap-1.5 transition" title="Simpan file draf JSON untuk dibagikan ke teman kelompok">
+                            <i class="fa-solid fa-share-nodes text-sky-400"></i> Simpan Draf
+                        </button>
+                        <label class="cursor-pointer py-2 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-[11px] font-semibold rounded-xl flex items-center justify-center gap-1.5 transition" title="Muat file draf JSON dari teman kelompok">
+                            <i class="fa-solid fa-folder-open text-emerald-400"></i> Muat Draf
+                            <input type="file" accept=".json" class="hidden" onchange="importJsonDraft(event)">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Actions Sidebar -->
+            <div class="p-4 bg-slate-950/60 border-t border-slate-800 space-y-2">
+                <button onclick="exportAllCourseWord()" class="w-full py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition shadow-md">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span id="exportAllLabel">Unduh Portofolio Lengkap (1–8)</span>
+                </button>
+                <button onclick="confirmResetCourse()" class="w-full py-1.5 px-3 text-rose-400 hover:bg-rose-950/50 text-[11px] font-medium rounded-lg flex items-center justify-center gap-1.5 transition">
+                    <i class="fa-solid fa-trash-can"></i> Reset Isian Kelas Ini
+                </button>
+            </div>
+        </aside>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-slate-950/60 z-30 hidden lg:hidden no-print"></div>
+
+        <!-- ===================================================================== -->
+        <!-- KOLOM KANAN: ISI KELAS BERUPA LEMBAR KERJA MAHASISWA (LKM) INTERAKTIF -->
+        <!-- ===================================================================== -->
+        <main class="main-workspace flex-1 min-w-0 p-4 sm:p-6 lg:p-8 space-y-6">
+
+            <!-- 1. Kartu Identitas Mahasiswa Terpadu (Berlaku untuk kedua mata kuliah) -->
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-slate-900 text-amber-400 flex items-center justify-center font-bold shadow-sm">
+                            <i class="fa-solid fa-id-card-clip"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-bold text-slate-800 text-sm sm:text-base">Identitas Mahasiswa — PAK SYAFF CLASSROOM</h2>
+                            <p class="text-xs text-slate-500">Cukup isi satu kali; otomatis terpasang di seluruh LKM PKn-BC maupun Bahasa Indonesia</p>
+                        </div>
+                    </div>
+                    <span id="activeCoursePill" class="text-xs font-bold px-3 py-1 rounded-full bg-rose-50 text-garuda-700 border border-rose-200">
+                        Kelas: PKn × Basic Computer
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap <span class="text-rose-500">*</span></label>
+                        <input type="text" id="shared_nama" data-shared="nama" oninput="onSharedIdentityChange()" placeholder="Contoh: Rina Kartika" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">NIM <span class="text-rose-500">*</span></label>
+                        <input type="text" id="shared_nim" data-shared="nim" oninput="onSharedIdentityChange()" placeholder="Contoh: 24010892" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Kelompok / Anggota</label>
+                        <input type="text" id="shared_kelompok" data-shared="kelompok" oninput="onSharedIdentityChange()" placeholder="Kelompok 2: Ani, Budi..." class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Sekolah PPL / Tanggal</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="shared_sekolah" data-shared="sekolah" oninput="onSharedIdentityChange()" placeholder="SDN..." class="w-1/2 px-2.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white">
+                            <input type="date" id="shared_tanggal" data-shared="tanggal" oninput="onSharedIdentityChange()" class="w-1/2 px-2 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel Pengumpulan Tugas Google Drive & Generator Format Nama File -->
+                <div class="mt-4 p-3.5 rounded-xl bg-sky-50/80 border border-sky-200 flex flex-col lg:flex-row lg:items-center justify-between gap-3 no-print">
+                    <div class="space-y-1 min-w-0">
+                        <div class="flex items-center gap-1.5 text-xs font-bold text-sky-900">
+                            <i class="fa-brands fa-google-drive text-sky-600"></i>
+                            <span>Pengumpulan Tugas ke Google Drive</span>
+                        </div>
+                        <p class="text-[11px] text-slate-600">
+                            Format wajib: <code id="submissionFileFormatPreview" class="bg-white px-2 py-0.5 rounded border border-sky-200 text-sky-800 font-bold select-all">nama lengkap_nim_nama tugas</code>
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 shrink-0">
+                        <button type="button" onclick="copySubmissionFilename()" class="px-3 py-2 bg-white hover:bg-sky-100 text-sky-800 border border-sky-300 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Salin Nama File</span>
+                        </button>
+                        <a href="https://drive.google.com/drive/folders/1dgEjMrXT3BaGOKDMj5pt1MmC-h75PGO3?usp=drive_link" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-xl shadow-sm transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Buka Folder Pengumpulan</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Banner Header LKM Aktif & Tombol Unduh -->
+            <div id="activeBanner" class="bg-gradient-to-r from-garuda-700 via-garuda-600 to-slate-800 rounded-2xl p-5 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 no-print">
+                <div class="space-y-1">
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/80">
+                        <span id="bannerBadge">PKN × BASIC COMPUTER · PERTEMUAN 1</span>
+                        <span>•</span>
+                        <span id="bannerProgress" class="bg-white/20 px-2 py-0.5 rounded-md text-white">0% Terisi</span>
+                    </div>
+                    <h2 id="bannerTitle" class="text-lg sm:text-xl font-extrabold leading-snug">Pertemuan 1 | Siapa Saya di Dunia Digital?</h2>
+                    <p id="bannerSub" class="text-xs text-white/85">Sila 1 (Ketuhanan YME & Toleransi) × Perangkat, File, Folder & Cloud</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 w-full md:w-auto shrink-0">
+                    <button onclick="openClassroomGuide()" class="flex-1 md:flex-initial px-3.5 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <span id="bannerGuideText">Rubrik & Peta</span>
+                    </button>
+                    <button onclick="downloadCurrentWord()" class="flex-1 md:flex-initial px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-file-word text-blue-600 text-sm"></i>
+                        <span>Unduh (.doc)</span>
+                    </button>
+                    <a href="https://drive.google.com/drive/folders/1dgEjMrXT3BaGOKDMj5pt1MmC-h75PGO3?usp=drive_link" target="_blank" rel="noopener noreferrer" class="flex-1 md:flex-initial px-3.5 py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-1.5">
+                        <i class="fa-brands fa-google-drive text-sm"></i>
+                        <span>Kumpul Drive</span>
+                    </a>
+                    <button onclick="window.print()" class="px-3.5 py-2.5 bg-slate-950/40 hover:bg-slate-950/60 text-white border border-white/20 font-semibold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-file-pdf text-rose-300 text-sm"></i>
+                        <span>PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===================================================================== -->
+            <!-- WORKSPACE A: MATA KULIAH 1 — PKN × BASIC COMPUTER (PERTEMUAN 1 - 8) -->
+            <!-- ===================================================================== -->
+            <div id="course-workspace-pkn" class="space-y-6">
+
+                <!-- PKN PERTEMUAN 1 -->
+                <article id="pkn-lk-1" class="lk-section active-lk bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="px-2.5 py-1 rounded-md bg-garuda-50 text-garuda-700 text-xs font-bold">Nilai PKn: Sila 1 — Ketuhanan YME (Toleransi)</span>
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold">Komputer: Perangkat, File, Folder, Akun & Cloud</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">PERTEMUAN 1 | Siapa Saya di Dunia Digital?</h3>
+                    </div>
+
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+                        <h4 class="font-bold text-amber-950 text-sm">1. Pemantik (15 menit)</h4>
+                        <p class="text-xs text-slate-700 leading-relaxed">Buka bio Instagram/TikTok Anda (atau teman). Dalam 10 detik, orang bisa menilai Anda dari bio, foto, dan unggahan. Bagaimana jika orang tua murid atau kepala sekolah melakukan hal yang sama? <strong>Diskusikan:</strong> Apa yang bisa disimpulkan orang tentang agama, nilai, dan karakter Anda dari akun Anda?</p>
+                        <textarea data-field="pkn_p1_pemantik" rows="3" placeholder="Tuliskan hasil pengamatan dan diskusi pemantik Anda..." class="w-full p-3 text-sm bg-white border border-amber-200 rounded-xl"></textarea>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h4 class="font-bold text-slate-800 text-base">2. Aktivitas Jelajah: Kenali Perangkat (30 menit)</h4>
+                            <button type="button" onclick="autoDetectDevice()" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition no-print">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Deteksi Info Dasar Perangkat Ini
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-sm text-left min-w-[580px]">
+                                <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                    <tr><th class="p-3 w-1/4">Komponen</th><th class="p-3 w-3/8">Contoh di perangkat saya</th><th class="p-3 w-3/8">Fungsinya</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Perangkat input</td><td class="p-2"><input type="text" data-field="pkn_p1_dev_in_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p1_dev_in_fn" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Perangkat output</td><td class="p-2"><input type="text" data-field="pkn_p1_dev_out_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p1_dev_out_fn" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Prosesor (CPU) & RAM</td><td class="p-2"><input type="text" data-field="pkn_p1_dev_cpu_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p1_dev_cpu_fn" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Penyimpanan</td><td class="p-2"><input type="text" data-field="pkn_p1_dev_sto_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p1_dev_sto_fn" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Sistem operasi</td><td class="p-2"><input type="text" data-field="pkn_p1_dev_os_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p1_dev_os_fn" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                            <div class="flex items-center gap-2"><label class="text-xs font-semibold text-slate-700 shrink-0">Penyimpanan tersisa:</label><input type="text" data-field="pkn_p1_storage_free" placeholder="Contoh: 120 GB" class="w-full px-3 py-1.5 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            <div class="flex items-center gap-2"><label class="text-xs font-semibold text-slate-700 shrink-0">Versi OS:</label><input type="text" data-field="pkn_p1_os_version" placeholder="Contoh: Windows 11 23H2" class="w-full px-3 py-1.5 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 bg-blue-50/40 p-4 rounded-xl border border-blue-100">
+                        <h4 class="font-bold text-slate-800 text-base">3. Praktik Komputer: Email Profesional & Struktur Google Drive (45 menit)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                                <p class="font-bold text-slate-800 mb-1.5">Struktur Folder Portofolio Wajib:</p>
+                                <pre class="bg-slate-900 text-emerald-400 p-3 rounded-lg font-mono text-[11px] overflow-x-auto"><span id="folderRootPreview">Portofolio_PKn-BC_NamaAnda</span>
+├── P1_Identitas   ├── P5_Keadilan
+├── P2_Etika       ├── P6_HakKewajiban
+├── P3_Informasi   ├── P7_AksiNyata
+└── P4_Musyawarah  └── P8_Refleksi</pre>
+                            </div>
+                            <div class="space-y-2">
+                                <div><label class="block font-semibold text-slate-700 mb-1">Alamat Email Profesional:</label><input type="text" data-field="pkn_p1_email_pro" placeholder="nama.belakang@gmail.com" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                                <div><label class="block font-semibold text-slate-700 mb-1">Tautan Folder Google Drive:</label><input type="url" data-field="pkn_p1_drive_link" placeholder="https://drive.google.com/..." class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                                <div><label class="block font-semibold text-slate-700 mb-1">Catatan Latihan Operasi File (Salin/Pindah/Trash):</label><input type="text" data-field="pkn_p1_file_ops" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="font-bold text-slate-800 text-base">4. Diskusi Nilai: Toleransi Beragama di Ruang Digital (30 menit)</h4>
+                        <p class="text-xs text-slate-600">(1) Kapan candaan di grup WhatsApp/kolom komentar bisa melukai keyakinan orang lain? (2) Bagaimana guru SD menanggapi siswa yang mengejek teman karena agamanya berbeda?</p>
+                        <textarea data-field="pkn_p1_diskusi" rows="3" class="w-full p-3 text-sm border border-slate-200 rounded-xl"></textarea>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                        <h4 class="font-bold text-slate-800 text-sm">5. Cipta Produk: Profil Digital Calon Guru (Folder <code>P1_Identitas</code>)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">3 Nilai Utama Sebagai Guru:</label><textarea data-field="pkn_p1_produk_nilai" rows="3" class="w-full p-2.5 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                            <div class="space-y-2">
+                                <div><label class="block text-xs font-semibold text-slate-700 mb-1">Komitmen Digital:</label><textarea data-field="pkn_p1_produk_komitmen" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                                <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tautan Dokumen Profil Digital:</label><input type="url" data-field="pkn_p1_produk_link" placeholder="https://docs.google.com/..." class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-garuda-50/50 rounded-xl p-4 border border-garuda-100 space-y-3">
+                        <h4 class="font-bold text-slate-800 text-sm">6. Refleksi & Checklist Pertemuan 1</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">Jejak digital yang perlu dibersihkan:</label><textarea data-field="pkn_p1_ref_bersih" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">Janji menjaga toleransi digital:</label><textarea data-field="pkn_p1_ref_janji" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                        <div class="flex flex-wrap gap-4 pt-2 border-t border-garuda-100 text-xs font-medium text-slate-700">
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p1_chk_1" class="rounded text-garuda-600"> Email profesional</label>
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p1_chk_2" class="rounded text-garuda-600"> Struktur folder</label>
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p1_chk_3" class="rounded text-garuda-600"> Folder dibagikan</label>
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p1_chk_4" class="rounded text-garuda-600"> Profil digital</label>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PKN PERTEMUAN 2 -->
+                <article id="pkn-lk-2" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="px-2.5 py-1 rounded-md bg-garuda-50 text-garuda-700 text-xs font-bold">Nilai PKn: Sila 2 — Kemanusiaan yang Adil dan Beradab</span>
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold">Komputer: Pengolah Kata (Styles, Daftar, Tabel, Gambar, Header/Footer)</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">PERTEMUAN 2 | Jempol yang Berempati</h3>
+                    </div>
+
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+                        <h4 class="font-bold text-amber-950 text-sm">1. Pemantik (15 menit)</h4>
+                        <p class="text-xs text-slate-700"><strong>Kasus:</strong> Guru muda mengunggah foto murid menangis dengan keterangan lucu hingga viral dan diejek warganet. Siapa yang dirugikan? Apa yang seharusnya dilakukan guru?</p>
+                        <textarea data-field="pkn_p2_pemantik" rows="3" class="w-full p-3 text-sm bg-white border border-amber-200 rounded-xl"></textarea>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-800 text-base">2. Aktivitas Jelajah: Kasus Pelanggaran Kemanusiaan Digital</h4>
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-sm text-left min-w-[580px]">
+                                <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                    <tr><th class="p-3 w-1/4">Bentuk perilaku</th><th class="p-3">Contoh (pengalaman/berita)</th><th class="p-3">Dampak pada korban</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Cyberbullying</td><td class="p-2"><textarea data-field="pkn_p2_jel_1_ex" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="pkn_p2_jel_1_dam" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Body shaming</td><td class="p-2"><textarea data-field="pkn_p2_jel_2_ex" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="pkn_p2_jel_2_dam" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Doxing / data pribadi</td><td class="p-2"><textarea data-field="pkn_p2_jel_3_ex" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="pkn_p2_jel_3_dam" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Komentar kasar (julid)</td><td class="p-2"><textarea data-field="pkn_p2_jel_4_ex" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="pkn_p2_jel_4_dam" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-blue-50/40 p-4 rounded-xl border border-blue-100 space-y-2">
+                            <h4 class="font-bold text-slate-800 text-sm">3. Praktik Komputer: Kode Etik Digital Kelas</h4>
+                            <textarea data-field="pkn_p2_kode_etik" rows="5" placeholder="Tuliskan draf minimal 7 aturan Kode Etik Digital Kelas..." class="w-full p-2.5 text-sm bg-white border border-slate-200 rounded-lg"></textarea>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                            <h4 class="font-bold text-slate-800 text-sm">4. Diskusi Nilai: Kemanusiaan & Adaptasi Anak SD</h4>
+                            <textarea data-field="pkn_p2_dis_kritik" rows="2" placeholder="Cara menyampaikan kritik tanpa menyakiti..." class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea>
+                            <textarea data-field="pkn_p2_dis_sd" rows="2" placeholder="Adaptasi kode etik versi anak SD..." class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="bg-garuda-50/50 rounded-xl p-4 border border-garuda-100 space-y-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">5. Tautan Kode Etik (.docx & .pdf di P2_Etika):</label><input type="url" data-field="pkn_p2_produk_link" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">6. Refleksi:</label><textarea data-field="pkn_p2_refleksi" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                        <div class="flex flex-wrap gap-4 pt-2 border-t border-garuda-100 text-xs font-medium text-slate-700">
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p2_chk_1"> Style heading</label>
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p2_chk_2"> Daftar</label>
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p2_chk_3"> Tabel</label>
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p2_chk_4"> Gambar</label>
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p2_chk_5"> Header/footer</label>
+                            <label class="flex items-center gap-1.5"><input type="checkbox" data-field="pkn_p2_chk_6"> PDF</label>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PKN PERTEMUAN 3 -->
+                <article id="pkn-lk-3" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="px-2.5 py-1 rounded-md bg-garuda-50 text-garuda-700 text-xs font-bold">Nilai PKn: Sila 3 — Persatuan Indonesia (Anti-Hoaks)</span>
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold">Komputer: Mesin Pencari, Verifikasi & Sitasi</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">PERTEMUAN 3 | Saring Sebelum Sharing</h3>
+                    </div>
+
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+                        <h4 class="font-bold text-amber-950 text-sm">1. Pemantik (15 menit)</h4>
+                        <p class="text-xs text-slate-700">Pesan berantai provokatif di grup keluarga: Apa reaksi pertama Anda dan mengapa hoaks dapat memecah belah bangsa?</p>
+                        <textarea data-field="pkn_p3_pemantik" rows="2" class="w-full p-2.5 text-sm bg-white border border-amber-200 rounded-xl"></textarea>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-800 text-base">2. Aktivitas Jelajah: Teknik Mesin Pencari</h4>
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-sm text-left min-w-[550px]">
+                                <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                    <tr><th class="p-3 w-1/4">Teknik</th><th class="p-3">Contoh pencarian</th><th class="p-3">Hasil / temuan</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Tanda kutip <code>"frasa pasti"</code></td><td class="p-2"><input type="text" data-field="pkn_p3_trik_1_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p3_trik_1_res" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Filter waktu / tahun</td><td class="p-2"><input type="text" data-field="pkn_p3_trik_2_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p3_trik_2_res" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40"><code>site:go.id</code> / <code>site:ac.id</code></td><td class="p-2"><input type="text" data-field="pkn_p3_trik_3_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p3_trik_3_res" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Pencarian gambar terbalik</td><td class="p-2"><input type="text" data-field="pkn_p3_trik_4_ex" class="w-full p-2 border border-slate-200 rounded-lg"></td><td class="p-2"><input type="text" data-field="pkn_p3_trik_4_res" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-800 text-base">3. Praktik Komputer: Kerangka Laporan Cek Fakta</h4>
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-sm text-left">
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-3 font-medium bg-slate-50/40 w-1/4">Klaim asli diperiksa</td><td class="p-2"><textarea data-field="pkn_p3_cf_klaim" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Sumber & tanggal</td><td class="p-2"><input type="text" data-field="pkn_p3_cf_sumber" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Verifikasi (min. 3 sumber)</td><td class="p-2"><textarea data-field="pkn_p3_cf_verif" rows="3" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr>
+                                        <td class="p-3 font-medium bg-slate-50/40">Label & Kesimpulan</td>
+                                        <td class="p-2 space-y-2">
+                                            <div class="flex flex-wrap gap-2 text-xs font-bold">
+                                                <label class="px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200"><input type="radio" name="pkn_p3_label" data-field="pkn_p3_cf_label" value="Benar"> Benar</label>
+                                                <label class="px-2.5 py-1 rounded bg-amber-50 text-amber-700 border border-amber-200"><input type="radio" name="pkn_p3_label" data-field="pkn_p3_cf_label" value="Menyesatkan"> Menyesatkan</label>
+                                                <label class="px-2.5 py-1 rounded bg-rose-50 text-rose-700 border border-rose-200"><input type="radio" name="pkn_p3_label" data-field="pkn_p3_cf_label" value="Hoaks"> Hoaks</label>
+                                                <label class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-300"><input type="radio" name="pkn_p3_label" data-field="pkn_p3_cf_label" value="Belum terbukti"> Belum terbukti</label>
+                                            </div>
+                                            <textarea data-field="pkn_p3_cf_kesimpulan" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Daftar Pustaka (APA)</td><td class="p-2"><textarea data-field="pkn_p3_cf_sitasi" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-garuda-50/50 rounded-xl p-4 border border-garuda-100 space-y-3">
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">4. Diskusi Nilai (Persatuan & Edukasi Anti-Hoaks Siswa SD):</label><textarea data-field="pkn_p3_diskusi" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">5. Tautan Laporan & Poster (P3_Informasi):</label><input type="url" data-field="pkn_p3_produk_link" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">6. Refleksi:</label><textarea data-field="pkn_p3_refleksi" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PKN PERTEMUAN 4 -->
+                <article id="pkn-lk-4" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="px-2.5 py-1 rounded-md bg-garuda-50 text-garuda-700 text-xs font-bold">Nilai PKn: Sila 4 — Kerakyatan & Permusyawaratan</span>
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold">Komputer: Kolaborasi Daring (Docs, Forms, Version History)</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">PERTEMUAN 4 | Suara Kita, Keputusan Kita</h3>
+                    </div>
+
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+                        <h4 class="font-bold text-amber-950 text-sm">1. Pemantik</h4>
+                        <p class="text-xs text-slate-700">Apa bedanya mengeluh di story media sosial dengan menyampaikan aspirasi secara bermartabat?</p>
+                        <textarea data-field="pkn_p4_pemantik" rows="2" class="w-full p-2.5 text-sm bg-white border border-amber-200 rounded-xl"></textarea>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[500px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-1/3">Ciri musyawarah yang baik</th><th class="p-3">Contoh perilaku di rapat daring</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Mendengarkan</td><td class="p-2"><input type="text" data-field="pkn_p4_mus_1" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Menghargai pendapat berbeda</td><td class="p-2"><input type="text" data-field="pkn_p4_mus_2" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Mengutamakan mufakat</td><td class="p-2"><input type="text" data-field="pkn_p4_mus_3" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Bertanggung jawab pada hasil</td><td class="p-2"><input type="text" data-field="pkn_p4_mus_4" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-blue-50/40 p-4 rounded-xl border border-blue-100 space-y-3">
+                        <h4 class="font-bold text-slate-800 text-sm">3. Praktik Kolaborasi: Survei Aspirasi & Notulen (Folder <code>P4_Musyawarah</code>)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pembagian Peran Kelompok:</label><textarea data-field="pkn_p4_peran" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                            <div class="space-y-2">
+                                <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tautan Google Forms (≥ 15 responden):</label><input type="url" data-field="pkn_p4_forms_link" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                                <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tautan Notulen Google Docs:</label><input type="url" data-field="pkn_p4_docs_link" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            </div>
+                        </div>
+                        <div><label class="block text-xs font-semibold text-slate-700 mb-1">Ringkasan Hasil Survei & Keputusan Mufakat:</label><textarea data-field="pkn_p4_notulen" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                    </div>
+
+                    <div class="bg-garuda-50/50 rounded-xl p-4 border border-garuda-100 space-y-3">
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">4. Diskusi Nilai (Mengelola Perbedaan Pendapat):</label><textarea data-field="pkn_p4_diskusi" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">6. Refleksi — Peran saya:</label><input type="text" data-field="pkn_p4_ref_peran" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">Hal yang perlu diperbaiki saat diskusi:</label><input type="text" data-field="pkn_p4_ref_baik" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PKN PERTEMUAN 5 -->
+                <article id="pkn-lk-5" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="px-2.5 py-1 rounded-md bg-garuda-50 text-garuda-700 text-xs font-bold">Nilai PKn: Sila 5 — Keadilan Sosial (Kesenjangan Digital)</span>
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold">Komputer: Spreadsheet (SUM, AVERAGE, MAX, MIN & Grafik)</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">PERTEMUAN 5 | Data Bicara, Keadilan Menjawab</h3>
+                    </div>
+
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+                        <h4 class="font-bold text-amber-950 text-sm">1. Pemantik</h4>
+                        <p class="text-xs text-slate-700">Siapa di sekitar Anda yang mengalami kesenjangan akses teknologi? Mengapa hal itu tidak adil?</p>
+                        <textarea data-field="pkn_p5_pemantik" rows="2" class="w-full p-2.5 text-sm bg-white border border-amber-200 rounded-xl"></textarea>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <h4 class="font-bold text-slate-800 text-base">2 & 3. Simulator Spreadsheet Data Kesenjangan (Min. 5 Provinsi)</h4>
+                            <button type="button" onclick="fillSampleDataP5()" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg border border-blue-200 transition no-print">
+                                <i class="fa-solid fa-table-list mr-1"></i> Isi Contoh Data Simulasi
+                            </button>
+                        </div>
+                        <input type="text" data-field="pkn_p5_sumber_data" placeholder="Sumber data resmi (misal: BPS Statistik Pendidikan 2025)..." class="w-full p-2 text-sm bg-slate-50 border border-slate-200 rounded-lg">
+
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-sm text-left min-w-[640px]">
+                                <thead class="bg-slate-800 text-white font-semibold">
+                                    <tr>
+                                        <th class="p-3">Provinsi</th>
+                                        <th class="p-3 w-36">Internet (%)</th>
+                                        <th class="p-3 w-36">Jml Sekolah</th>
+                                        <th class="p-3 w-36">Sekolah Komputer</th>
+                                        <th class="p-3 w-36 bg-blue-900 text-center">% Komputer</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200" id="p5SpreadsheetBody"></tbody>
+                                <tfoot class="bg-slate-100 font-bold text-slate-800 border-t-2 border-slate-300 text-xs">
+                                    <tr>
+                                        <td class="p-3">RATA-RATA / JUMLAH</td>
+                                        <td class="p-3" id="p5_avg_inet">0.0%</td>
+                                        <td class="p-3" id="p5_sum_sek">SUM: 0</td>
+                                        <td class="p-3" id="p5_sum_komp">SUM: 0</td>
+                                        <td class="p-3 text-center text-blue-700" id="p5_avg_pct">0.0%</td>
+                                    </tr>
+                                    <tr class="bg-slate-50 text-slate-600">
+                                        <td class="p-2.5">MAX / MIN</td>
+                                        <td class="p-2.5" colspan="2" id="p5_max_prov">MAX: -</td>
+                                        <td class="p-2.5" colspan="2" id="p5_min_prov">MIN: -</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                            <div class="text-xs font-bold text-slate-700"><i class="fa-solid fa-chart-bar text-blue-600 mr-1"></i> Grafik Batang Otomatis (% Sekolah dengan Komputer)</div>
+                            <div id="p5BarChart" class="space-y-2 pt-1"></div>
+                        </div>
+
+                        <div><label class="block text-xs font-bold text-slate-700 mb-1">Tiga Temuan Utama (Insight):</label><textarea data-field="pkn_p5_insight" rows="2" class="w-full p-2.5 text-sm border border-slate-200 rounded-xl"></textarea></div>
+                    </div>
+
+                    <div class="bg-garuda-50/50 rounded-xl p-4 border border-garuda-100 space-y-3">
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">4. Diskusi Nilai (Keadilan Sosial & Gotong Royong Digital):</label><textarea data-field="pkn_p5_diskusi" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">5. Ide Aksi & Tautan Spreadsheet (P5_Keadilan):</label><textarea data-field="pkn_p5_ide_aksi" rows="2" placeholder="Ide aksi..." class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg mb-1.5"></textarea><input type="url" data-field="pkn_p5_produk_link" placeholder="https://docs.google.com/spreadsheets/..." class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">6. Refleksi:</label><textarea data-field="pkn_p5_refleksi" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PKN PERTEMUAN 6 -->
+                <article id="pkn-lk-6" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="px-2.5 py-1 rounded-md bg-garuda-50 text-garuda-700 text-xs font-bold">Nilai PKn: UUD 1945, UU ITE, UU PDP & Hak Cipta</span>
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold">Komputer: Keamanan Akun, Privasi & Presentasi</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">PERTEMUAN 6 | Hak, Kewajiban, dan Keamanan Digitalku</h3>
+                    </div>
+
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+                        <h4 class="font-bold text-amber-950 text-sm">1. Pemantik: Analisis Kasus Hukum Digital</h4>
+                        <textarea data-field="pkn_p6_pemantik" rows="2" placeholder="Analisis kasus peretasan, foto KTP, hak cipta lagu, atau kritik layanan publik..." class="w-full p-2.5 text-sm bg-white border border-amber-200 rounded-xl"></textarea>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[580px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-1/4">Hak warga negara</th><th class="p-3">Kewajiban terkait</th><th class="p-3">Contoh di ruang digital</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Menyatakan pendapat</td><td class="p-2"><textarea data-field="pkn_p6_hak_1_kew" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="pkn_p6_hak_1_ex" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Rasa aman & perlindungan data</td><td class="p-2"><textarea data-field="pkn_p6_hak_2_kew" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="pkn_p6_hak_2_ex" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Pendidikan & informasi</td><td class="p-2"><textarea data-field="pkn_p6_hak_3_kew" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="pkn_p6_hak_3_ex" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Karya cipta</td><td class="p-2"><textarea data-field="pkn_p6_hak_4_kew" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="pkn_p6_hak_4_ex" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-slate-800 text-sm">3. Audit Keamanan Akun Pribadi</h4>
+                            <span class="text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Jangan tulis sandi asli!</span>
+                        </div>
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-sm text-left min-w-[540px]">
+                                <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                    <tr><th class="p-3">Akun</th><th class="p-3 text-center">Sandi kuat?</th><th class="p-3 text-center">2FA aktif?</th><th class="p-3 text-center">Privasi diatur?</th><th class="p-3">Tindak lanjut</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Email</td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_1_pw"></td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_1_2fa"></td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_1_prv"></td><td class="p-2"><input type="text" data-field="pkn_p6_aud_1_tl" class="w-full p-1.5 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Media sosial 1</td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_2_pw"></td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_2_2fa"></td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_2_prv"></td><td class="p-2"><input type="text" data-field="pkn_p6_aud_2_tl" class="w-full p-1.5 border border-slate-200 rounded-lg"></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Akun kampus</td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_3_pw"></td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_3_2fa"></td><td class="p-3 text-center"><input type="checkbox" data-field="pkn_p6_aud_3_prv"></td><td class="p-2"><input type="text" data-field="pkn_p6_aud_3_tl" class="w-full p-1.5 border border-slate-200 rounded-lg"></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-garuda-50/50 rounded-xl p-4 border border-garuda-100 space-y-3">
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">4. Ringkasan 3 Slide Studi Kasus Hukum (UU ITE / UU PDP / Hak Cipta):</label><textarea data-field="pkn_p6_studi_kasus" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">5. Tautan Slide & Kartu Keamanan (P6_HakKewajiban):</label><input type="url" data-field="pkn_p6_produk_link" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">6. Refleksi Edukasi Privasi Siswa SD:</label><textarea data-field="pkn_p6_refleksi" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PKN PERTEMUAN 7 -->
+                <article id="pkn-lk-7" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="px-2.5 py-1 rounded-md bg-garuda-50 text-garuda-700 text-xs font-bold">Nilai PKn: Bela Negara & Penerapan Nilai Pancasila di SD</span>
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold">Komputer: Desain Infografis & Media Presentasi</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">PERTEMUAN 7 | Aksi Nyata: Pancasila untuk Anak SD</h3>
+                    </div>
+
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+                        <h4 class="font-bold text-amber-950 text-sm">1. Pemantik: Bela Negara Guru SD di Era Digital</h4>
+                        <textarea data-field="pkn_p7_pemantik" rows="2" class="w-full p-2.5 text-sm bg-white border border-amber-200 rounded-xl"></textarea>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-1/3">Komponen Proyek Media</th><th class="p-3">Rancangan Saya</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Kelas / jenjang SD sasaran</td><td class="p-2"><input type="text" data-field="pkn_p7_ren_kelas" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Sila / nilai yang diangkat</td><td class="p-2"><input type="text" data-field="pkn_p7_ren_sila" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Tema & bentuk media</td><td class="p-2"><input type="text" data-field="pkn_p7_ren_tema" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Pesan utama & aktivitas siswa</td><td class="p-2"><textarea data-field="pkn_p7_ren_pesan" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[540px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-2/5">Aspek Peer Review</th><th class="p-3 text-center w-24">Skor (1–4)</th><th class="p-3">Saran perbaikan</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Kesesuaian nilai Pancasila</td><td class="p-2 text-center"><select data-field="pkn_p7_peer_1_skor" class="px-2 py-1 border rounded bg-white"><option value="">-</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></td><td class="p-2"><input type="text" data-field="pkn_p7_peer_1_saran" class="w-full p-1.5 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Kejelasan bahasa anak SD</td><td class="p-2 text-center"><select data-field="pkn_p7_peer_2_skor" class="px-2 py-1 border rounded bg-white"><option value="">-</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></td><td class="p-2"><input type="text" data-field="pkn_p7_peer_2_saran" class="w-full p-1.5 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Desain dan keterbacaan</td><td class="p-2 text-center"><select data-field="pkn_p7_peer_3_skor" class="px-2 py-1 border rounded bg-white"><option value="">-</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></td><td class="p-2"><input type="text" data-field="pkn_p7_peer_3_saran" class="w-full p-1.5 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Keamanan & hak cipta</td><td class="p-2 text-center"><select data-field="pkn_p7_peer_4_skor" class="px-2 py-1 border rounded bg-white"><option value="">-</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></td><td class="p-2"><input type="text" data-field="pkn_p7_peer_4_saran" class="w-full p-1.5 border border-slate-200 rounded-lg"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-garuda-50/50 rounded-xl p-4 border border-garuda-100 grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">5. Tautan Media Final (P7_AksiNyata):</label><input type="url" data-field="pkn_p7_produk_link" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></div>
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">6. Refleksi:</label><textarea data-field="pkn_p7_refleksi" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                    </div>
+                </article>
+
+                <!-- PKN PERTEMUAN 8 -->
+                <article id="pkn-lk-8" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="px-2.5 py-1 rounded-md bg-garuda-50 text-garuda-700 text-xs font-bold">Nilai PKn: Integrasi Seluruh Sila & Komitmen Pendidik</span>
+                            <span class="px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 text-xs font-bold">Komputer: Portofolio Digital & Evaluasi Diri</span>
+                        </div>
+                        <h3 class="text-xl font-extrabold text-slate-800">PERTEMUAN 8 | Showcase Portofolio dan Janji Warga Negara</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[520px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-1/4">Folder</th><th class="p-3 w-1/3">Isi Wajib</th><th class="p-3 text-center w-16">Siap</th><th class="p-3">Tautan Direct File</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200" id="p8PortoBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[480px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3">Aspek Evaluasi Diri</th><th class="p-3 text-center w-28">Awal (1–5)</th><th class="p-3 text-center w-28">Akhir (1–5)</th><th class="p-3 text-center w-28">Peningkatan</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200" id="p8EvalBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-red-50 via-white to-blue-50 border-2 border-garuda-200 rounded-2xl p-5 space-y-3">
+                        <h4 class="font-extrabold text-garuda-800 text-base uppercase"><i class="fa-solid fa-award mr-1.5 text-garuda-600"></i> Janji Warga Digital Pancasilais</h4>
+                        <textarea data-field="pkn_p8_janji_teks" rows="3" placeholder="Saya berjanji sebagai calon guru SD dan warga digital Indonesia untuk..." class="w-full p-3 text-sm bg-white border border-garuda-200 rounded-xl font-medium"></textarea>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <input type="text" data-field="pkn_p8_janji_ttd" placeholder="Tanda Tangan Digital (Nama Lengkap)" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-xl font-serif italic">
+                            <input type="date" data-field="pkn_p8_janji_tgl" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-xl">
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- ===================================================================== -->
+            <!-- WORKSPACE B: MATA KULIAH 2 — BAHASA INDONESIA & MMP (MATERI 1 - 8) -->
+            <!-- ===================================================================== -->
+            <div id="course-workspace-bindo" class="hidden space-y-6">
+
+                <!-- BINDO LK 1 -->
+                <article id="bindo-lk-1" class="lk-section bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-2">Bahasa Indonesia & MMP · Materi 1</span>
+                        <h3 class="text-xl font-extrabold text-slate-800">LK 1 — Peta Literasi Kelas Awal</h3>
+                        <p class="text-xs text-slate-600 mt-1"><strong>Tujuan:</strong> Memetakan kondisi literasi siswa kelas awal dan peluang guru.</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-800 text-sm">A. Individu: Bahasa Pertama Saya (3–5 kalimat)</h4>
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-sm text-left">
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-3 font-medium bg-slate-50/40 w-1/3">Bahasa apa yang saya pakai di rumah saat kecil?</td><td class="p-2"><textarea data-field="bi_lk1_a1" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Bahan bacaan apa yang saya kenal sebelum SD?</td><td class="p-2"><textarea data-field="bi_lk1_a2" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Bagaimana pengalaman itu memengaruhi cara mengajar?</td><td class="p-2"><textarea data-field="bi_lk1_a3" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-800 text-sm">B. Kelompok: Peta Literasi (Data Nyata atau Kasus Bu Rina)</h4>
+                        <div class="overflow-x-auto rounded-xl border border-slate-200">
+                            <table class="w-full text-sm text-left min-w-[580px]">
+                                <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                    <tr><th class="p-3 w-1/4">Aspek</th><th class="p-3">Kondisi</th><th class="p-3">Peluang yang dapat dimanfaatkan guru</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Bahasa ibu siswa</td><td class="p-2"><textarea data-field="bi_lk1_b1_kon" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk1_b1_pel" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Bahan bacaan tersedia</td><td class="p-2"><textarea data-field="bi_lk1_b2_kon" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk1_b2_pel" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Peran orang tua & keluarga</td><td class="p-2"><textarea data-field="bi_lk1_b3_kon" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk1_b3_pel" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                    <tr><td class="p-3 font-medium bg-slate-50/40">Lingkungan cetak</td><td class="p-2"><textarea data-field="bi_lk1_b4_kon" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk1_b4_pel" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">C1. Tiga Tantangan Literasi Bu Rina:</label><textarea data-field="bi_lk1_c_tan" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">C2. Tiga Peran Bahasa Indonesia Bagi Siswanya:</label><textarea data-field="bi_lk1_c_per" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">D. Refleksi:</label><textarea data-field="bi_lk1_refleksi" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                    </div>
+                </article>
+
+                <!-- BINDO LK 2 -->
+                <article id="bindo-lk-2" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-2">Bahasa Indonesia & MMP · Materi 2</span>
+                        <h3 class="text-xl font-extrabold text-slate-800">LK 2 — Profil Kesiapan Membaca-Menulis</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[640px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-1/5">Komponen</th><th class="p-3">Temuan (Kasus Dimas/Anak)</th><th class="p-3 w-36">Status</th><th class="p-3">Rencana Stimulasi</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Kesadaran fonologis</td><td class="p-2"><textarea data-field="bi_lk2_a1_tem" rows="2" class="w-full p-2 border rounded-lg"></textarea></td><td class="p-2"><select data-field="bi_lk2_a1_stat" class="w-full p-2 text-xs border rounded-lg bg-white"><option value="">-</option><option value="Siap">Siap</option><option value="Perlu stimulasi">Perlu stimulasi</option></select></td><td class="p-2"><textarea data-field="bi_lk2_a1_ren" rows="2" class="w-full p-2 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Pengenalan huruf</td><td class="p-2"><textarea data-field="bi_lk2_a2_tem" rows="2" class="w-full p-2 border rounded-lg"></textarea></td><td class="p-2"><select data-field="bi_lk2_a2_stat" class="w-full p-2 text-xs border rounded-lg bg-white"><option value="">-</option><option value="Siap">Siap</option><option value="Perlu stimulasi">Perlu stimulasi</option></select></td><td class="p-2"><textarea data-field="bi_lk2_a2_ren" rows="2" class="w-full p-2 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Kosakata & bahasa lisan</td><td class="p-2"><textarea data-field="bi_lk2_a3_tem" rows="2" class="w-full p-2 border rounded-lg"></textarea></td><td class="p-2"><select data-field="bi_lk2_a3_stat" class="w-full p-2 text-xs border rounded-lg bg-white"><option value="">-</option><option value="Siap">Siap</option><option value="Perlu stimulasi">Perlu stimulasi</option></select></td><td class="p-2"><textarea data-field="bi_lk2_a3_ren" rows="2" class="w-full p-2 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Motorik halus</td><td class="p-2"><textarea data-field="bi_lk2_a4_tem" rows="2" class="w-full p-2 border rounded-lg"></textarea></td><td class="p-2"><select data-field="bi_lk2_a4_stat" class="w-full p-2 text-xs border rounded-lg bg-white"><option value="">-</option><option value="Siap">Siap</option><option value="Perlu stimulasi">Perlu stimulasi</option></select></td><td class="p-2"><textarea data-field="bi_lk2_a4_ren" rows="2" class="w-full p-2 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Minat terhadap buku</td><td class="p-2"><textarea data-field="bi_lk2_a5_tem" rows="2" class="w-full p-2 border rounded-lg"></textarea></td><td class="p-2"><select data-field="bi_lk2_a5_stat" class="w-full p-2 text-xs border rounded-lg bg-white"><option value="">-</option><option value="Siap">Siap</option><option value="Perlu stimulasi">Perlu stimulasi</option></select></td><td class="p-2"><textarea data-field="bi_lk2_a5_ren" rows="2" class="w-full p-2 border rounded-lg"></textarea></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">B. Tiga Permainan Stimulasi dari Benda Sekitar:</label><textarea data-field="bi_lk2_b_main" rows="3" placeholder="1. Nama permainan — Alat/bahan — Langkah — Keterampilan&#10;2. ...&#10;3. ..." class="w-full p-2.5 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">C. Dukungan Teori (Vygotsky, Piaget, Emergent Literacy):</label><textarea data-field="bi_lk2_c_teori" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">D. Refleksi Risiko Memaksa Anak Membaca Sebelum Siap:</label><textarea data-field="bi_lk2_d_ref" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- BINDO LK 3 -->
+                <article id="bindo-lk-3" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-2">Bahasa Indonesia & MMP · Materi 3</span>
+                        <h3 class="text-xl font-extrabold text-slate-800">LK 3 — Matriks Analisis Metode Membaca Permulaan</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[680px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-32">Metode</th><th class="p-3">Langkah pokok</th><th class="p-3">Kelebihan</th><th class="p-3">Keterbatasan</th><th class="p-3">Cocok untuk siswa…</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-bold bg-slate-50/40">Eja</td><td class="p-2"><textarea data-field="bi_lk3_m1_1" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m1_2" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m1_3" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m1_4" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-bold bg-slate-50/40">Bunyi / fonik</td><td class="p-2"><textarea data-field="bi_lk3_m2_1" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m2_2" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m2_3" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m2_4" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-bold bg-slate-50/40">Kata lembaga</td><td class="p-2"><textarea data-field="bi_lk3_m3_1" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m3_2" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m3_3" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m3_4" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-bold bg-slate-50/40">Global</td><td class="p-2"><textarea data-field="bi_lk3_m4_1" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m4_2" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m4_3" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m4_4" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-bold bg-slate-50/40">SAS</td><td class="p-2"><textarea data-field="bi_lk3_m5_1" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m5_2" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m5_3" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk3_m5_4" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">B. Metode Terpilih untuk Kelas Bu Rina & 3 Alasan:</label><textarea data-field="bi_lk3_b_kep" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">C. Catatan Simulasi 5 Menit (Kata, Langkah, Umpan Balik):</label><textarea data-field="bi_lk3_c_sim" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">D. Refleksi: Apakah satu metode cukup?</label><textarea data-field="bi_lk3_d_ref" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                    </div>
+                </article>
+
+                <!-- BINDO LK 4 (DENGAN KANVAS SKETSA DIGITAL & UPLOAD FOTO) -->
+                <article id="bindo-lk-4" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-2">Bahasa Indonesia & MMP · Materi 4</span>
+                        <h3 class="text-xl font-extrabold text-slate-800">LK 4 — Modul Ajar Ringkas dan Media (35 Menit)</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left">
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-medium bg-slate-50/40 w-1/3">Tema & 5 Kata Kunci</td><td class="p-2"><input type="text" data-field="bi_lk4_tema" class="w-full p-2 border border-slate-200 rounded-lg"></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Tujuan Pembelajaran & Pemantik</td><td class="p-2"><textarea data-field="bi_lk4_tujuan" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Kegiatan Awal (5m), Inti (25m), Penutup (5m)</td><td class="p-2"><textarea data-field="bi_lk4_keg" rows="4" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Diferensiasi (Belum kenal huruf vs lancar)</td><td class="p-2"><textarea data-field="bi_lk4_dif" rows="2" class="w-full p-2 border border-slate-200 rounded-lg"></textarea></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Interactive Sketch Pad & Upload -->
+                    <div class="bg-indigo-50/60 rounded-xl p-4 border border-indigo-100 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Sketsa Digital atau Foto Media Pembelajaran</h4>
+                                <p class="text-xs text-slate-500">Gambar langsung di kanvas atau unggah foto media kartu kata/papan flanel.</p>
+                            </div>
+                            <div class="flex gap-2 no-print">
+                                <button type="button" onclick="toggleSketchPad()" class="px-3 py-1.5 bg-white border border-brand-200 text-brand-700 hover:bg-brand-50 text-xs font-bold rounded-xl transition">
+                                    <i class="fa-solid fa-paintbrush mr-1"></i> Kanvas Sketsa
+                                </button>
+                                <label class="cursor-pointer px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition">
+                                    <i class="fa-solid fa-image mr-1"></i> Unggah Foto
+                                    <input type="file" accept="image/*" class="hidden" onchange="handleLk4ImageUpload(event)">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="sketchPadContainer" class="hidden bg-white p-3 rounded-xl border border-indigo-200 space-y-2 no-print">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" onclick="setPenColor('#1e293b')" class="w-5 h-5 rounded-full bg-slate-800 border"></button>
+                                    <button type="button" onclick="setPenColor('#dc2626')" class="w-5 h-5 rounded-full bg-red-600 border"></button>
+                                    <button type="button" onclick="setPenColor('#2563eb')" class="w-5 h-5 rounded-full bg-blue-600 border"></button>
+                                    <button type="button" onclick="setPenColor('#16a34a')" class="w-5 h-5 rounded-full bg-green-600 border"></button>
+                                    <button type="button" onclick="setPenColor('#ffffff')" class="px-2 py-0.5 text-[11px] bg-slate-100 rounded border">Hapus</button>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="clearSketchCanvas()" class="px-2.5 py-1 text-xs text-rose-600">Reset</button>
+                                    <button type="button" onclick="saveSketchToLk4()" class="px-3 py-1 text-xs bg-emerald-600 text-white rounded-lg font-bold">Simpan Sketsa</button>
+                                </div>
+                            </div>
+                            <canvas id="mediaSketchCanvas" class="w-full h-56 border border-slate-200 rounded-lg touch-none cursor-crosshair bg-white block"></canvas>
+                        </div>
+
+                        <div id="lk4ImagePreviewContainer" class="hidden bg-white p-3 rounded-xl border border-slate-200 text-center">
+                            <img id="lk4ImagePreview" src="" alt="Sketsa Media" class="max-h-56 mx-auto rounded-lg object-contain">
+                            <button type="button" onclick="removeLk4Image()" class="mt-2 px-3 py-1 bg-rose-50 text-rose-600 text-xs font-semibold rounded-lg no-print">Hapus Gambar</button>
+                        </div>
+                    </div>
+
+                    <div><label class="block text-xs font-bold text-slate-800 mb-1">Refleksi Bagian Tersulit:</label><textarea data-field="bi_lk4_ref" rows="2" class="w-full p-2.5 text-sm border border-slate-200 rounded-xl"></textarea></div>
+                </article>
+
+                <!-- BINDO LK 5 -->
+                <article id="bindo-lk-5" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-2">Bahasa Indonesia & MMP · Materi 5</span>
+                        <h3 class="text-xl font-extrabold text-slate-800">LK 5 — Praktik dan Asesmen Membaca</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[560px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3">Aspek Observasi Simulasi</th><th class="p-3 text-center w-12">4</th><th class="p-3 text-center w-12">3</th><th class="p-3 text-center w-12">2</th><th class="p-3 text-center w-12">1</th><th class="p-3">Catatan</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200" id="lk5ObsBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-amber-50/70 p-4 rounded-xl border border-amber-200">
+                        <div><label class="block text-xs font-bold text-amber-900 mb-1">★ Bintang 1:</label><input type="text" data-field="bi_lk5_b1" class="w-full p-2 text-sm bg-white border border-amber-200 rounded-lg"></div>
+                        <div><label class="block text-xs font-bold text-amber-900 mb-1">★ Bintang 2:</label><input type="text" data-field="bi_lk5_b2" class="w-full p-2 text-sm bg-white border border-amber-200 rounded-lg"></div>
+                        <div><label class="block text-xs font-bold text-indigo-900 mb-1">✦ Satu Harapan:</label><input type="text" data-field="bi_lk5_har" class="w-full p-2 text-sm bg-white border border-indigo-200 rounded-lg"></div>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[600px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-1/4">Butir Asesmen</th><th class="p-3">Tugas Siswa</th><th class="p-3">Indikator Berhasil & Cara Catat</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Mengenal huruf</td><td class="p-2"><textarea data-field="bi_lk5_as1_t" rows="2" class="w-full p-2 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk5_as1_i" rows="2" class="w-full p-2 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Suku kata & kata</td><td class="p-2"><textarea data-field="bi_lk5_as2_t" rows="2" class="w-full p-2 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk5_as2_i" rows="2" class="w-full p-2 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-medium bg-slate-50/40">Kelancaran & pemahaman</td><td class="p-2"><textarea data-field="bi_lk5_as3_t" rows="2" class="w-full p-2 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk5_as3_i" rows="2" class="w-full p-2 border rounded-lg"></textarea></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div><label class="block text-xs font-bold text-slate-800 mb-1">C. Tindak Lanjut Guru & Pesan Orang Tua (Belum kenal huruf / Terbata / Lancar):</label><textarea data-field="bi_lk5_tl" rows="3" class="w-full p-2.5 text-sm border border-slate-200 rounded-xl"></textarea></div>
+                </article>
+
+                <!-- BINDO LK 6 -->
+                <article id="bindo-lk-6" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-2">Bahasa Indonesia & MMP · Materi 6</span>
+                        <h3 class="text-xl font-extrabold text-slate-800">LK 6 — Menulis Permulaan</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[580px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-20 text-center">Contoh</th><th class="p-3">Jenis kesulitan</th><th class="p-3">Penyebab</th><th class="p-3">Strategi perbaikan</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="p-3 font-bold text-center bg-slate-50/40">A</td><td class="p-2"><textarea data-field="bi_lk6_a1_1" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk6_a1_2" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk6_a1_3" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-bold text-center bg-slate-50/40">B</td><td class="p-2"><textarea data-field="bi_lk6_a2_1" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk6_a2_2" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk6_a2_3" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td></tr>
+                                <tr><td class="p-3 font-bold text-center bg-slate-50/40">C</td><td class="p-2"><textarea data-field="bi_lk6_a3_1" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk6_a3_2" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td><td class="p-2"><textarea data-field="bi_lk6_a3_3" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">B. Rencana Latihan Menulis 1 Pekan (Hari 1–5):</label><textarea data-field="bi_lk6_pekan" rows="4" placeholder="Hari 1 (motorik): ...&#10;Hari 2 (pola): ...&#10;Hari 3 (huruf): ...&#10;Hari 4 (kata): ...&#10;Hari 5 (kalimat): ..." class="w-full p-2.5 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        <div class="space-y-2">
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">C. Lima Kalimat Dikte:</label><textarea data-field="bi_lk6_dikte" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                            <div><label class="block text-xs font-bold text-slate-800 mb-1">D. Refleksi:</label><textarea data-field="bi_lk6_ref" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- BINDO LK 7 (BUKU CERITA BERGAMBAR + FLIPBOOK PREVIEW) -->
+                <article id="bindo-lk-7" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4 flex flex-wrap items-end justify-between gap-3">
+                        <div>
+                            <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-2">Bahasa Indonesia & MMP · Materi 7</span>
+                            <h3 class="text-xl font-extrabold text-slate-800">LK 7 — Buku Cerita Bergambar “Duniaku”</h3>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" data-field="bi_lk7_tema" placeholder="Tema IPAS..." class="px-3 py-2 text-sm bg-indigo-50 border border-indigo-200 rounded-xl font-medium">
+                            <button type="button" onclick="openFlipbookPreview()" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-sm transition no-print">
+                                <i class="fa-solid fa-book-open mr-1"></i> Pratinjau Buku
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left min-w-[600px]">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3 w-16 text-center">Hal</th><th class="p-3">Deskripsi Gambar</th><th class="p-3">Kalimat Bahasa Indonesia</th><th class="p-3">Padanan Bahasa Ibu</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200" id="lk7PagesBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">B. Rancangan Pembelajaran Menulis (Pramenulis–Berbagi):</label><textarea data-field="bi_lk7_rancang" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        <div><label class="block text-xs font-bold text-slate-800 mb-1">D. Refleksi Peran Bahasa Ibu:</label><textarea data-field="bi_lk7_ref" rows="3" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                    </div>
+                </article>
+
+                <!-- BINDO LK 8 -->
+                <article id="bindo-lk-8" class="lk-section hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-bold mb-2">Bahasa Indonesia & MMP · Materi 8</span>
+                        <h3 class="text-xl font-extrabold text-slate-800">LK 8 — Portofolio, Gelar Karya, dan Refleksi Akhir</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                                <tr><th class="p-3">Produk Portofolio</th><th class="p-3 text-center w-24">Ada</th><th class="p-3 text-center w-32">Perlu perbaikan</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200" id="lk8PortoBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div><label class="block text-xs font-bold text-amber-800 mb-1">★★ Dua Bintang Umpan Balik Teman:</label><textarea data-field="bi_lk8_bintang" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                        <div><label class="block text-xs font-bold text-indigo-800 mb-1">✦ Satu Harapan:</label><textarea data-field="bi_lk8_harapan" rows="2" class="w-full p-2 text-sm bg-white border border-slate-200 rounded-lg"></textarea></div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-slate-800 text-sm">D. Refleksi Akhir (Target: 150–200 kata)</h4>
+                            <span id="wordCountBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-200 text-slate-700">0 kata</span>
+                        </div>
+                        <textarea data-field="bi_lk8_d_1" oninput="updateLk8WordCount()" rows="2" placeholder="1. Tiga hal terpenting yang saya pelajari..." class="w-full p-2.5 text-sm bg-white border border-slate-200 rounded-xl"></textarea>
+                        <textarea data-field="bi_lk8_d_2" oninput="updateLk8WordCount()" rows="2" placeholder="2. Tantangan yang masih dihadapi dan rencana perbaikannya..." class="w-full p-2.5 text-sm bg-white border border-slate-200 rounded-xl"></textarea>
+                        <textarea data-field="bi_lk8_d_3" oninput="updateLk8WordCount()" rows="2" placeholder="3. Cara menerapkannya saat PPL atau mengajar..." class="w-full p-2.5 text-sm bg-white border border-slate-200 rounded-xl"></textarea>
+                    </div>
+                </article>
+            </div>
+
+            <!-- 3. Navigasi Bawah LKM -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 pb-10 no-print">
+                <button id="prevLkBtn" onclick="navigateLk(-1)" class="w-full sm:w-auto px-5 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-xs sm:text-sm rounded-xl transition flex items-center justify-center gap-2 disabled:opacity-40 disabled:pointer-events-none">
+                    <i class="fa-solid fa-arrow-left"></i> LKM Sebelumnya
+                </button>
+                <button onclick="downloadCurrentWord()" class="w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-sm transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-download"></i> Unduh LKM Ini (.doc)
+                </button>
+                <button id="nextLkBtn" onclick="navigateLk(1)" class="w-full sm:w-auto px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs sm:text-sm rounded-xl transition flex items-center justify-center gap-2 disabled:opacity-40 disabled:pointer-events-none">
+                    LKM Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- MODALS: PANDUAN/RUBRIK, FLIPBOOK BUKU CERITA & KONFIRMASI RESET -->
+    <!-- ========================================================================= -->
+    <div id="guideModal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+                <h3 id="guideModalTitle" class="font-bold text-base">Panduan Kelas</h3>
+                <button onclick="closeGuideModal()" class="p-1.5 hover:bg-white/10 rounded-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="guideModalBody" class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed"></div>
+        </div>
+    </div>
+
+    <div id="flipbookModal" class="fixed inset-0 bg-slate-950/70 z-50 hidden flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b pb-3">
+                <div>
+                    <span class="text-[11px] font-bold text-brand-600 uppercase">Pratinjau Buku Cerita Dwibahasa</span>
+                    <h3 id="flipbookThemeTitle" class="font-bold text-base text-slate-800">Tema IPAS: -</h3>
+                </div>
+                <button onclick="closeFlipbookModal()" class="p-1.5 text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 min-h-[220px] flex flex-col justify-between text-center">
+                <div class="text-xs font-bold text-amber-800" id="flipPageNumber">Halaman 1 dari 6</div>
+                <div class="p-3 bg-white rounded-xl border border-dashed border-amber-300 text-xs text-slate-600 italic" id="flipPageIllustration">-</div>
+                <div class="space-y-1">
+                    <p id="flipPageIndo" class="text-base font-bold text-slate-800">“...”</p>
+                    <p id="flipPageIbu" class="text-xs font-medium text-indigo-700 italic">“...”</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-between">
+                <button onclick="changeFlipPage(-1)" id="flipPrevBtn" class="px-3.5 py-2 bg-slate-100 rounded-xl text-xs font-bold disabled:opacity-40">Sebelumnya</button>
+                <span class="text-xs text-slate-400 font-medium">PAK SYAFF CLASSROOM</span>
+                <button onclick="changeFlipPage(1)" id="flipNextBtn" class="px-3.5 py-2 bg-brand-600 text-white rounded-xl text-xs font-bold disabled:opacity-40">Berikutnya</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resetModal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4">
+            <h3 class="text-lg font-bold text-slate-800">Bersihkan Isian Kelas Ini?</h3>
+            <p class="text-sm text-slate-600">Seluruh jawaban pada mata kuliah yang sedang aktif akan dihapus dari peramban ini. Identitas Anda tetap tersimpan.</p>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeResetModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+                <button onclick="executeResetCourse()" class="px-4 py-2 text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white rounded-xl">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // 1. STATE & KONFIGURASI PAK SYAFF CLASSROOM
+        // =========================================================================
+        const STORAGE_KEY = 'pak_syaff_classroom_v1';
+        let activeCourse = 'pkn'; // 'pkn' | 'bindo'
+        let activeLkMap = { pkn: 1, bindo: 1 };
+        let store = {
+            shared: { nama: '', nim: '', kelompok: '', sekolah: '', tanggal: '' },
+            fields: {}
+        };
+
+        const coursesConfig = {
+            pkn: {
+                name: 'PKn × Basic Computer',
+                fullTitle: 'Warga Digital Pancasilais (PKn × Basic Computer)',
+                timerMinutes: 180,
+                bannerClass: 'bg-gradient-to-r from-garuda-700 via-garuda-600 to-slate-800',
+                guideLabel: 'Peta 8 Pertemuan & Rubrik',
+                items: [
+                    { id: 1, short: 'P1 · Sila 1 & Cloud', title: 'Pertemuan 1 | Siapa Saya di Dunia Digital?', sub: 'Sila 1 (Ketuhanan YME & Toleransi) × Perangkat, File, Folder & Cloud', tag: 'P1_Identitas' },
+                    { id: 2, short: 'P2 · Sila 2 & Docs', title: 'Pertemuan 2 | Jempol yang Berempati', sub: 'Sila 2 (Kemanusiaan Adil & Beradab) × Pengolah Kata (Word/Docs)', tag: 'P2_Etika' },
+                    { id: 3, short: 'P3 · Sila 3 & Cek Fakta', title: 'Pertemuan 3 | Saring Sebelum Sharing', sub: 'Sila 3 (Persatuan & Anti-Hoaks) × Mesin Pencari, Verifikasi & Sitasi', tag: 'P3_Informasi' },
+                    { id: 4, short: 'P4 · Sila 4 & Kolaborasi', title: 'Pertemuan 4 | Suara Kita, Keputusan Kita', sub: 'Sila 4 (Musyawarah & Demokrasi) × Kolaborasi Daring (Docs & Forms)', tag: 'P4_Musyawarah' },
+                    { id: 5, short: 'P5 · Sila 5 & Sheets', title: 'Pertemuan 5 | Data Bicara, Keadilan Menjawab', sub: 'Sila 5 (Keadilan Sosial Digital) × Spreadsheet & Grafik Data', tag: 'P5_Keadilan' },
+                    { id: 6, short: 'P6 · UU ITE/PDP & Aman', title: 'Pertemuan 6 | Hak, Kewajiban, dan Keamanan Digitalku', sub: 'UUD 1945, UU ITE & UU PDP × Keamanan Akun & Hak Cipta', tag: 'P6_HakKewajiban' },
+                    { id: 7, short: 'P7 · Bela Negara & Media', title: 'Pertemuan 7 | Aksi Nyata: Pancasila untuk Anak SD', sub: 'Bela Negara & Cinta Tanah Air × Desain Media Ajar SD', tag: 'P7_AksiNyata' },
+                    { id: 8, short: 'P8 · Showcase & Janji', title: 'Pertemuan 8 | Showcase Portofolio dan Janji Warga Negara', sub: 'Integrasi Seluruh Sila × Portofolio Digital & Evaluasi Diri', tag: 'P8_Refleksi' }
+                ]
+            },
+            bindo: {
+                name: 'Bahasa Indonesia & MMP',
+                fullTitle: 'Bahasa Indonesia & Membaca Menulis Permulaan (PGSD)',
+                timerMinutes: 80,
+                bannerClass: 'bg-gradient-to-r from-brand-700 via-indigo-600 to-slate-800',
+                guideLabel: 'Studi Kasus & Panduan Materi',
+                items: [
+                    { id: 1, short: 'LK 1 · Peta Literasi', title: 'LK 1 — Peta Literasi Kelas Awal', sub: 'Memetakan kondisi literasi siswa kelas awal & kasus Bu Rina', tag: 'BI_LK1_PetaLiterasi' },
+                    { id: 2, short: 'LK 2 · Profil Kesiapan', title: 'LK 2 — Profil Kesiapan Membaca-Menulis', sub: 'Menilai kesiapan anak (Kasus Dimas) & merancang stimulasi', tag: 'BI_LK2_Kesiapan' },
+                    { id: 3, short: 'LK 3 · Matriks Metode', title: 'LK 3 — Matriks Analisis Metode Membaca Permulaan', sub: 'Perbandingan metode Eja, Bunyi, Kata Lembaga, Global & SAS', tag: 'BI_LK3_Metode' },
+                    { id: 4, short: 'LK 4 · Modul & Media', title: 'LK 4 — Modul Ajar Ringkas dan Media', sub: 'Rancangan pembelajaran 35 menit kelas 1 & sketsa media', tag: 'BI_LK4_ModulMedia' },
+                    { id: 5, short: 'LK 5 · Asesmen Baca', title: 'LK 5 — Praktik dan Asesmen Membaca', sub: 'Observasi simulasi, instrumen asesmen & tindak lanjut', tag: 'BI_LK5_Asesmen' },
+                    { id: 6, short: 'LK 6 · Menulis Awal', title: 'LK 6 — Menulis Permulaan', sub: 'Analisis tulisan siswa, latihan sepekan & kalimat dikte', tag: 'BI_LK6_Menulis' },
+                    { id: 7, short: 'LK 7 · Buku "Duniaku"', title: 'LK 7 — Buku Cerita Bergambar “Duniaku”', sub: 'Integrasi tema IPAS & buku cerita dwibahasa 6 halaman', tag: 'BI_LK7_BukuDuniaku' },
+                    { id: 8, short: 'LK 8 · Gelar Karya', title: 'LK 8 — Portofolio, Gelar Karya, dan Refleksi Akhir', sub: 'Checklist produk, umpan balik teman & refleksi 150–200 kata', tag: 'BI_LK8_Portofolio' }
+                ]
+            }
+        };
+
+        // =========================================================================
+        // 2. INISIALISASI TABEL DINAMIS
+        // =========================================================================
+        function initDynamicTables() {
+            // PKN Pertemuan 5 Spreadsheet
+            document.getElementById('p5SpreadsheetBody').innerHTML = [1,2,3,4,5].map(i => `
+                <tr>
+                    <td class="p-2"><input type="text" data-field="pkn_p5_row_${i}_prov" oninput="recalcP5Spreadsheet()" placeholder="Provinsi ${i}..." class="w-full p-2 border border-slate-200 rounded-lg"></td>
+                    <td class="p-2"><input type="number" step="0.1" data-field="pkn_p5_row_${i}_inet" oninput="recalcP5Spreadsheet()" placeholder="0.0" class="w-full p-2 border border-slate-200 rounded-lg"></td>
+                    <td class="p-2"><input type="number" data-field="pkn_p5_row_${i}_sek" oninput="recalcP5Spreadsheet()" placeholder="0" class="w-full p-2 border border-slate-200 rounded-lg"></td>
+                    <td class="p-2"><input type="number" data-field="pkn_p5_row_${i}_komp" oninput="recalcP5Spreadsheet()" placeholder="0" class="w-full p-2 border border-slate-200 rounded-lg"></td>
+                    <td class="p-2 text-center font-mono font-bold text-blue-700 bg-blue-50/40" id="p5_row_${i}_pct">0.0%</td>
+                </tr>
+            `).join('');
+
+            // PKN Pertemuan 8 Portfolio & Eval
+            const folders = [
+                ['P1_Identitas', 'Profil digital'], ['P2_Etika', 'Kode etik digital'],
+                ['P3_Informasi', 'Laporan cek fakta + poster'], ['P4_Musyawarah', 'Notulen + Forms'],
+                ['P5_Keadilan', 'Spreadsheet + ide aksi'], ['P6_HakKewajiban', 'Slide kasus + kartu aman'],
+                ['P7_AksiNyata', 'Media ajar Pancasila SD'], ['P8_Refleksi', 'Refleksi akhir + janji']
+            ];
+            document.getElementById('p8PortoBody').innerHTML = folders.map((f, idx) => `
+                <tr>
+                    <td class="p-2.5 font-mono font-bold text-xs bg-slate-50/40">${f[0]}</td>
+                    <td class="p-2.5 text-xs">${f[1]}</td>
+                    <td class="p-2.5 text-center"><input type="checkbox" data-field="pkn_p8_porto_${idx+1}_siap"></td>
+                    <td class="p-2"><input type="url" data-field="pkn_p8_porto_${idx+1}_link" placeholder="https://drive.google.com/..." class="w-full p-1.5 text-xs border border-slate-200 rounded-lg"></td>
+                </tr>
+            `).join('');
+
+            const evalAspek = ['Kecakapan komputer dasar', 'Verifikasi informasi', 'Etika bermedia digital', 'Kolaborasi & musyawarah', 'Kepedulian keadilan sosial'];
+            document.getElementById('p8EvalBody').innerHTML = evalAspek.map((a, idx) => `
+                <tr>
+                    <td class="p-3 font-medium bg-slate-50/40">${a}</td>
+                    <td class="p-2 text-center"><select data-field="pkn_p8_eval_${idx+1}_awal" onchange="recalcP8Eval()" class="px-2.5 py-1 border rounded bg-white font-bold"><option value="">-</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td>
+                    <td class="p-2 text-center"><select data-field="pkn_p8_eval_${idx+1}_akhir" onchange="recalcP8Eval()" class="px-2.5 py-1 border rounded bg-white font-bold"><option value="">-</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td>
+                    <td class="p-2 text-center font-bold text-xs" id="p8_eval_${idx+1}_diff">-</td>
+                </tr>
+            `).join('');
+
+            // BINDO LK 5 Observasi
+            const obsAspek = ['Kejelasan pelafalan & intonasi guru', 'Kesesuaian media dengan kata kunci', 'Keterlibatan aktif siswa kelas awal', 'Pengelolaan waktu 35 menit'];
+            document.getElementById('lk5ObsBody').innerHTML = obsAspek.map((a, idx) => `
+                <tr>
+                    <td class="p-3 font-medium bg-slate-50/40">${a}</td>
+                    ${[4,3,2,1].map(s => `<td class="p-3 text-center"><input type="radio" name="bi_lk5_obs_${idx+1}" data-field="bi_lk5_obs_${idx+1}" value="${s}"></td>`).join('')}
+                    <td class="p-2"><input type="text" data-field="bi_lk5_obs_${idx+1}_cat" class="w-full p-1.5 border border-slate-200 rounded-lg"></td>
+                </tr>
+            `).join('');
+
+            // BINDO LK 7 6 Halaman Buku
+            document.getElementById('lk7PagesBody').innerHTML = [1,2,3,4,5,6].map(p => `
+                <tr>
+                    <td class="p-3 font-bold text-center bg-slate-50/40">${p}</td>
+                    <td class="p-2"><textarea data-field="bi_lk7_h${p}_gam" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td>
+                    <td class="p-2"><textarea data-field="bi_lk7_h${p}_ind" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td>
+                    <td class="p-2"><textarea data-field="bi_lk7_h${p}_ibu" rows="2" class="w-full p-1.5 border rounded-lg"></textarea></td>
+                </tr>
+            `).join('');
+
+            // BINDO LK 8 Portfolio Checklist
+            const bindoProds = ['LK 1 — Peta Literasi', 'LK 2 — Profil Kesiapan', 'LK 3 — Matriks Metode', 'LK 4 — Modul Ajar & Sketsa Media', 'LK 5 — Instrumen Asesmen Membaca', 'LK 6 — Rencana Menulis Permulaan', 'LK 7 — Buku Cerita Bergambar “Duniaku”'];
+            document.getElementById('lk8PortoBody').innerHTML = bindoProds.map((p, idx) => `
+                <tr>
+                    <td class="p-3 font-medium bg-slate-50/40">${p}</td>
+                    <td class="p-3 text-center"><input type="radio" name="bi_lk8_p_${idx+1}" data-field="bi_lk8_p_${idx+1}" value="Ada"></td>
+                    <td class="p-3 text-center"><input type="radio" name="bi_lk8_p_${idx+1}" data-field="bi_lk8_p_${idx+1}" value="Perlu perbaikan"></td>
+                </tr>
+            `).join('');
+        }
+
+        // =========================================================================
+        // 3. PENYIMPANAN OTOMATIS & SINKRONISASI IDENTITAS
+        // =========================================================================
+        function loadStore() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    store.shared = { ...store.shared, ...(parsed.shared || {}) };
+                    store.fields = { ...(parsed.fields || {}) };
+                }
+            } catch (e) {}
+
+            // Set default date if empty
+            if (!store.shared.tanggal) {
+                store.shared.tanggal = new Date().toISOString().split('T')[0];
+            }
+
+            // Populate shared identity
+            document.getElementById('shared_nama').value = store.shared.nama || '';
+            document.getElementById('shared_nim').value = store.shared.nim || '';
+            document.getElementById('shared_kelompok').value = store.shared.kelompok || '';
+            document.getElementById('shared_sekolah').value = store.shared.sekolah || '';
+            document.getElementById('shared_tanggal').value = store.shared.tanggal || '';
+
+            // Populate all fields
+            document.querySelectorAll('[data-field]').forEach(el => {
+                const key = el.getAttribute('data-field');
+                if (el.type === 'radio') el.checked = (store.fields[key] === el.value);
+                else if (el.type === 'checkbox') el.checked = Boolean(store.fields[key]);
+                else if (store.fields[key] !== undefined) el.value = store.fields[key];
+            });
+
+            // Restore LK4 Image if exists
+            if (store.fields['bi_lk4_image']) {
+                document.getElementById('lk4ImagePreview').src = store.fields['bi_lk4_image'];
+                document.getElementById('lk4ImagePreviewContainer').classList.remove('hidden');
+            }
+
+            onSharedIdentityChange(false);
+            recalcP5Spreadsheet();
+            recalcP8Eval();
+            updateLk8WordCount();
+        }
+
+        function saveStore() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+            } catch (e) {
+                showToast('Penyimpanan penuh (kurangi ukuran gambar jika ada).', 'error');
+            }
+        }
+
+        function onSharedIdentityChange(shouldSave = true) {
+            store.shared.nama = document.getElementById('shared_nama').value;
+            store.shared.nim = document.getElementById('shared_nim').value;
+            store.shared.kelompok = document.getElementById('shared_kelompok').value;
+            store.shared.sekolah = document.getElementById('shared_sekolah').value;
+            store.shared.tanggal = document.getElementById('shared_tanggal').value;
+
+            const cleanName = (store.shared.nama || 'NamaAnda').trim().replace(/[^a-zA-Z0-9]/g, '') || 'NamaAnda';
+            const folderEl = document.getElementById('folderRootPreview');
+            if (folderEl) folderEl.textContent = `Portofolio_PKn-BC_${cleanName}`;
+
+            updateSubmissionFilenamePreview();
+            if (shouldSave) saveStore();
+        }
+
+        function buildFormattedTaskName() {
+            const cfg = coursesConfig[activeCourse];
+            const num = activeLkMap[activeCourse];
+            const item = cfg.items[num - 1];
+            const namaRaw = (store.shared.nama || 'nama lengkap').trim().replace(/[\\/:*?"<>|]/g, '');
+            const nimRaw = (store.shared.nim || 'nim').trim().replace(/[\\/:*?"<>|]/g, '');
+            const cleanTaskTitle = item.title
+                .replace(/\|/g, '-')
+                .replace(/[“”]/g, '')
+                .replace(/[\\/:*?"<>|]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            return `${namaRaw}_${nimRaw}_${cleanTaskTitle}`;
+        }
+
+        function updateSubmissionFilenamePreview() {
+            const previewEl = document.getElementById('submissionFileFormatPreview');
+            if (previewEl) {
+                previewEl.textContent = buildFormattedTaskName();
+            }
+        }
+
+        function copySubmissionFilename() {
+            const formatted = buildFormattedTaskName();
+            const tempInput = document.createElement('input');
+            tempInput.value = formatted;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast(`Nama file disalin: ${formatted}`, 'success');
+        }
+
+        function attachAutoSave() {
+            const handler = (e) => {
+                const el = e.target;
+                if (!el.hasAttribute('data-field')) return;
+                const key = el.getAttribute('data-field');
+                if (el.type === 'checkbox') store.fields[key] = el.checked;
+                else if (el.type === 'radio') { if (el.checked) store.fields[key] = el.value; }
+                else store.fields[key] = el.value;
+                saveStore();
+                renderSidebarNav();
+            };
+            document.addEventListener('input', handler);
+            document.addEventListener('change', handler);
+        }
+
+        // =========================================================================
+        // 4. NAVIGASI 2 KOLOM (SWITCH MATA KULIAH & SWITCH LKM 1-8)
+        // =========================================================================
+        function switchCourse(courseKey) {
+            activeCourse = courseKey;
+            const cfg = coursesConfig[courseKey];
+
+            // Toggle Left Sidebar Course Buttons
+            const btnPkn = document.getElementById('btn-course-pkn');
+            const btnBindo = document.getElementById('btn-course-bindo');
+            if (courseKey === 'pkn') {
+                btnPkn.className = 'text-left p-3 rounded-xl border border-amber-400/60 bg-slate-800 shadow-sm flex items-start gap-3 transition';
+                btnBindo.className = 'text-left p-3 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 flex items-start gap-3 transition opacity-75 hover:opacity-100';
+                document.getElementById('activeCoursePill').className = 'text-xs font-bold px-3 py-1 rounded-full bg-rose-50 text-garuda-700 border border-rose-200';
+            } else {
+                btnBindo.className = 'text-left p-3 rounded-xl border border-amber-400/60 bg-slate-800 shadow-sm flex items-start gap-3 transition';
+                btnPkn.className = 'text-left p-3 rounded-xl border border-slate-800 bg-slate-800/40 hover:bg-slate-800/80 flex items-start gap-3 transition opacity-75 hover:opacity-100';
+                document.getElementById('activeCoursePill').className = 'text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 text-brand-700 border border-indigo-200';
+            }
+
+            document.getElementById('activeCoursePill').textContent = `Kelas: ${cfg.name}`;
+            document.getElementById('mobileCourseLabel').textContent = cfg.name;
+            document.getElementById('guideBtnLabel').textContent = cfg.guideLabel;
+            document.getElementById('courseTimerPresetLabel').textContent = `Sesi: ${cfg.timerMinutes}m`;
+
+            // Toggle Main Workspaces
+            document.getElementById('course-workspace-pkn').classList.toggle('hidden', courseKey !== 'pkn');
+            document.getElementById('course-workspace-bindo').classList.toggle('hidden', courseKey !== 'bindo');
+
+            // Reset timer to course default if not running
+            if (!timerInterval) {
+                timerSeconds = cfg.timerMinutes * 60;
+                updateTimerDisplay();
+            }
+
+            switchLk(activeLkMap[courseKey]);
+        }
+
+        function switchLk(lkNum) {
+            activeLkMap[activeCourse] = lkNum;
+            const prefix = activeCourse;
+            const cfg = coursesConfig[activeCourse];
+            const item = cfg.items[lkNum - 1];
+
+            // Hide all sections in current workspace, show selected
+            document.querySelectorAll(`#course-workspace-${prefix} .lk-section`).forEach(sec => {
+                sec.classList.add('hidden');
+                sec.classList.remove('active-lk');
+            });
+            const targetSec = document.getElementById(`${prefix}-lk-${lkNum}`);
+            if (targetSec) {
+                targetSec.classList.remove('hidden');
+                targetSec.classList.add('active-lk');
+            }
+
+            // Update Top Banner
+            const banner = document.getElementById('activeBanner');
+            banner.className = `${cfg.bannerClass} rounded-2xl p-5 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 no-print`;
+            document.getElementById('bannerBadge').textContent = `${cfg.name.toUpperCase()} · LKM ${lkNum}`;
+            document.getElementById('bannerTitle').textContent = item.title;
+            document.getElementById('bannerSub').textContent = item.sub;
+            document.getElementById('bannerGuideText').textContent = activeCourse === 'pkn' ? 'Peta & Rubrik' : 'Studi Kasus';
+
+            document.getElementById('prevLkBtn').disabled = (lkNum === 1);
+            document.getElementById('nextLkBtn').disabled = (lkNum === 8);
+
+            updateSubmissionFilenamePreview();
+            renderSidebarNav();
+            closeSidebarMobile();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateLk(delta) {
+            const next = activeLkMap[activeCourse] + delta;
+            if (next >= 1 && next <= 8) switchLk(next);
+        }
+
+        function renderSidebarNav() {
+            const cfg = coursesConfig[activeCourse];
+            const currentNum = activeLkMap[activeCourse];
+            const navContainer = document.getElementById('sidebarNavList');
+
+            let totalFields = 0;
+            let totalFilled = 0;
+
+            navContainer.innerHTML = cfg.items.map(item => {
+                const sec = document.getElementById(`${activeCourse}-lk-${item.id}`);
+                const fields = sec ? sec.querySelectorAll('[data-field]') : [];
+                const keys = new Set();
+                const filled = new Set();
+
+                fields.forEach(f => {
+                    const k = f.getAttribute('data-field');
+                    keys.add(k);
+                    if (f.type === 'checkbox' || f.type === 'radio') {
+                        if (store.fields[k]) filled.add(k);
+                    } else if (store.fields[k] && String(store.fields[k]).trim() !== '') {
+                        filled.add(k);
+                    }
+                });
+
+                const count = keys.size || 1;
+                const pct = Math.round((filled.size / count) * 100);
+                totalFields += count;
+                totalFilled += filled.size;
+
+                if (item.id === currentNum) {
+                    document.getElementById('bannerProgress').textContent = `${pct}% Terisi`;
+                }
+
+                const isActive = item.id === currentNum;
+                const rowClass = isActive
+                    ? 'bg-amber-400 text-slate-950 font-bold shadow-sm'
+                    : 'text-slate-300 hover:bg-slate-800/80 hover:text-white';
+                const badgeClass = isActive
+                    ? 'bg-slate-950/20 text-slate-950'
+                    : pct === 100 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-400';
+
+                return `
+                    <button onclick="switchLk(${item.id})" class="w-full text-left px-3 py-2 rounded-xl text-xs transition flex items-center justify-between gap-2 ${rowClass}">
+                        <span class="truncate">${item.short}</span>
+                        <span class="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeClass}">${pct}%</span>
+                    </button>
+                `;
+            }).join('');
+
+            const coursePct = Math.round((totalFilled / (totalFields || 1)) * 100);
+            document.getElementById('courseProgressText').textContent = `${coursePct}%`;
+            document.getElementById('courseProgressBar').style.width = `${coursePct}%`;
+        }
+
+        // =========================================================================
+        // 5. FITUR INTERAKTIF KHUSUS (DEVICE DETECT, SPREADSHEET, SKETCH, FLIPBOOK)
+        // =========================================================================
+        function autoDetectDevice() {
+            const ua = navigator.userAgent;
+            let os = 'Sistem Operasi Terdeteksi';
+            if (ua.includes('Win')) os = 'Windows (Laptop/PC)';
+            else if (ua.includes('Mac')) os = 'macOS';
+            else if (ua.includes('Android')) os = 'Android';
+            else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS / iPadOS';
+
+            const setIfEmpty = (k, v) => {
+                const el = document.querySelector(`[data-field="${k}"]`);
+                if (el && !el.value) { el.value = v; store.fields[k] = v; }
+            };
+            setIfEmpty('pkn_p1_dev_in_ex', 'Keyboard, Touchpad/Mouse, Kamera, Mikrofon');
+            setIfEmpty('pkn_p1_dev_in_fn', 'Memasukkan data teks, navigasi, dan suara');
+            setIfEmpty('pkn_p1_dev_out_ex', `Layar (${screen.width}x${screen.height} px), Speaker`);
+            setIfEmpty('pkn_p1_dev_out_fn', 'Menampilkan visual & keluaran suara');
+            setIfEmpty('pkn_p1_dev_cpu_ex', `${navigator.hardwareConcurrency || 4} Core CPU`);
+            setIfEmpty('pkn_p1_dev_cpu_fn', 'Memproses instruksi dan memori kerja');
+            setIfEmpty('pkn_p1_dev_os_ex', os);
+            setIfEmpty('pkn_p1_dev_os_fn', 'Mengelola perangkat keras & aplikasi');
+            saveStore();
+            renderSidebarNav();
+            showToast('Info dasar perangkat berhasil diisi!', 'success');
+        }
+
+        function fillSampleDataP5() {
+            const sample = [
+                { prov: 'DKI Jakarta', inet: 84.6, sek: 2950, komp: 2890 },
+                { prov: 'Jawa Timur', inet: 71.2, sek: 26400, komp: 23100 },
+                { prov: 'Kalimantan Barat', inet: 63.8, sek: 6120, komp: 4410 },
+                { prov: 'Nusa Tenggara Timur', inet: 52.4, sek: 7850, komp: 4630 },
+                { prov: 'Papua Pegunungan', inet: 29.5, sek: 1420, komp: 510 }
+            ];
+            sample.forEach((r, idx) => {
+                const i = idx + 1;
+                store.fields[`pkn_p5_row_${i}_prov`] = r.prov;
+                store.fields[`pkn_p5_row_${i}_inet`] = r.inet;
+                store.fields[`pkn_p5_row_${i}_sek`] = r.sek;
+                store.fields[`pkn_p5_row_${i}_komp`] = r.komp;
+                document.querySelector(`[data-field="pkn_p5_row_${i}_prov"]`).value = r.prov;
+                document.querySelector(`[data-field="pkn_p5_row_${i}_inet"]`).value = r.inet;
+                document.querySelector(`[data-field="pkn_p5_row_${i}_sek"]`).value = r.sek;
+                document.querySelector(`[data-field="pkn_p5_row_${i}_komp"]`).value = r.komp;
+            });
+            saveStore();
+            recalcP5Spreadsheet();
+            renderSidebarNav();
+            showToast('Data simulasi 5 provinsi dimuat!', 'info');
+        }
+
+        function recalcP5Spreadsheet() {
+            let sumInet = 0, cntInet = 0, sumSek = 0, sumKomp = 0, rows = [];
+            for (let i = 1; i <= 5; i++) {
+                const prov = store.fields[`pkn_p5_row_${i}_prov`] || `Provinsi ${i}`;
+                const inet = parseFloat(store.fields[`pkn_p5_row_${i}_inet`]);
+                const sek = parseFloat(store.fields[`pkn_p5_row_${i}_sek`]);
+                const komp = parseFloat(store.fields[`pkn_p5_row_${i}_komp`]);
+                if (!isNaN(inet)) { sumInet += inet; cntInet++; }
+                if (!isNaN(sek)) sumSek += sek;
+                if (!isNaN(komp)) sumKomp += komp;
+                let pct = 0;
+                if (!isNaN(sek) && sek > 0 && !isNaN(komp)) {
+                    pct = (komp / sek) * 100;
+                    rows.push({ prov, pct });
+                }
+                const cell = document.getElementById(`p5_row_${i}_pct`);
+                if (cell) cell.textContent = `${pct.toFixed(1)}%`;
+            }
+            document.getElementById('p5_avg_inet').textContent = `${(cntInet ? sumInet / cntInet : 0).toFixed(1)}%`;
+            document.getElementById('p5_sum_sek').textContent = `SUM: ${sumSek.toLocaleString('id-ID')}`;
+            document.getElementById('p5_sum_komp').textContent = `SUM: ${sumKomp.toLocaleString('id-ID')}`;
+            const avgPct = rows.length ? rows.reduce((a,b) => a + b.pct, 0) / rows.length : 0;
+            document.getElementById('p5_avg_pct').textContent = `${avgPct.toFixed(1)}%`;
+
+            const chart = document.getElementById('p5BarChart');
+            if (rows.length) {
+                const sorted = [...rows].sort((a,b) => a.pct - b.pct);
+                document.getElementById('p5_min_prov').textContent = `MIN: ${sorted[0].prov} (${sorted[0].pct.toFixed(1)}%)`;
+                document.getElementById('p5_max_prov').textContent = `MAX: ${sorted[sorted.length-1].prov} (${sorted[sorted.length-1].pct.toFixed(1)}%)`;
+                chart.innerHTML = sorted.map(it => {
+                    const color = it.pct < 50 ? 'bg-rose-500' : it.pct < 80 ? 'bg-amber-500' : 'bg-emerald-500';
+                    return `<div class="space-y-1"><div class="flex justify-between text-xs font-medium"><span>${it.prov}</span><span class="font-bold">${it.pct.toFixed(1)}%</span></div><div class="w-full bg-slate-200 rounded-full h-2"><div class="${color} h-2 rounded-full" style="width:${Math.min(100, it.pct)}%"></div></div></div>`;
+                }).join('');
+            } else {
+                chart.innerHTML = '<p class="text-xs text-slate-400 italic">Isi angka pada tabel untuk menampilkan grafik otomatis...</p>';
+            }
+        }
+
+        function recalcP8Eval() {
+            for (let i = 1; i <= 5; i++) {
+                const a = parseInt(store.fields[`pkn_p8_eval_${i}_awal`]);
+                const b = parseInt(store.fields[`pkn_p8_eval_${i}_akhir`]);
+                const el = document.getElementById(`p8_eval_${i}_diff`);
+                if (!el) continue;
+                if (!isNaN(a) && !isNaN(b)) {
+                    const d = b - a;
+                    el.textContent = d > 0 ? `+${d} poin` : `${d} poin`;
+                    el.className = `p-2 text-center font-bold text-xs ${d > 0 ? 'text-emerald-600' : 'text-slate-500'}`;
+                } else {
+                    el.textContent = '-';
+                }
+            }
+        }
+
+        // Sketch Pad & Image Upload (Bahasa Indonesia LK 4)
+        let sketchCanvas, sketchCtx, isDrawing = false, penColor = '#1e293b';
+        function toggleSketchPad() {
+            const box = document.getElementById('sketchPadContainer');
+            box.classList.toggle('hidden');
+            if (!box.classList.contains('hidden')) {
+                sketchCanvas = document.getElementById('mediaSketchCanvas');
+                sketchCanvas.width = sketchCanvas.parentElement.clientWidth || 560;
+                sketchCanvas.height = 224;
+                sketchCtx = sketchCanvas.getContext('2d');
+                sketchCtx.fillStyle = '#ffffff';
+                sketchCtx.fillRect(0, 0, sketchCanvas.width, sketchCanvas.height);
+                sketchCtx.lineCap = 'round';
+                const pos = (e) => {
+                    const r = sketchCanvas.getBoundingClientRect();
+                    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+                    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+                    return { x: cx - r.left, y: cy - r.top };
+                };
+                sketchCanvas.onmousedown = sketchCanvas.ontouchstart = (e) => { isDrawing = true; const p = pos(e); sketchCtx.beginPath(); sketchCtx.moveTo(p.x, p.y); };
+                sketchCanvas.onmousemove = sketchCanvas.ontouchmove = (e) => {
+                    if (!isDrawing) return;
+                    if (e.touches) e.preventDefault();
+                    const p = pos(e);
+                    sketchCtx.strokeStyle = penColor;
+                    sketchCtx.lineWidth = penColor === '#ffffff' ? 16 : 3;
+                    sketchCtx.lineTo(p.x, p.y);
+                    sketchCtx.stroke();
+                };
+                sketchCanvas.onmouseup = sketchCanvas.onmouseleave = sketchCanvas.ontouchend = () => { isDrawing = false; };
+            }
+        }
+        function setPenColor(c) { penColor = c; }
+        function clearSketchCanvas() { if (sketchCtx) { sketchCtx.fillStyle = '#ffffff'; sketchCtx.fillRect(0, 0, sketchCanvas.width, sketchCanvas.height); } }
+        function saveSketchToLk4() {
+            if (!sketchCanvas) return;
+            const url = sketchCanvas.toDataURL('image/png');
+            store.fields['bi_lk4_image'] = url;
+            document.getElementById('lk4ImagePreview').src = url;
+            document.getElementById('lk4ImagePreviewContainer').classList.remove('hidden');
+            document.getElementById('sketchPadContainer').classList.add('hidden');
+            saveStore();
+            showToast('Sketsa media berhasil disimpan!', 'success');
+        }
+        function handleLk4ImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                store.fields['bi_lk4_image'] = ev.target.result;
+                document.getElementById('lk4ImagePreview').src = ev.target.result;
+                document.getElementById('lk4ImagePreviewContainer').classList.remove('hidden');
+                saveStore();
+                showToast('Foto media berhasil diunggah!', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+        function removeLk4Image() {
+            delete store.fields['bi_lk4_image'];
+            document.getElementById('lk4ImagePreviewContainer').classList.add('hidden');
+            saveStore();
+        }
+
+        // Flipbook Preview (Bahasa Indonesia LK 7)
+        let currentFlipPage = 1;
+        function openFlipbookPreview() {
+            currentFlipPage = 1;
+            document.getElementById('flipbookThemeTitle').textContent = `Tema IPAS: ${store.fields['bi_lk7_tema'] || '(Belum diisi)'}`;
+            renderFlipPage();
+            document.getElementById('flipbookModal').classList.remove('hidden');
+        }
+        function closeFlipbookModal() { document.getElementById('flipbookModal').classList.add('hidden'); }
+        function changeFlipPage(d) {
+            const n = currentFlipPage + d;
+            if (n >= 1 && n <= 6) { currentFlipPage = n; renderFlipPage(); }
+        }
+        function renderFlipPage() {
+            document.getElementById('flipPageNumber').textContent = `Halaman ${currentFlipPage} dari 6`;
+            document.getElementById('flipPageIllustration').textContent = store.fields[`bi_lk7_h${currentFlipPage}_gam`] || '(Deskripsi gambar belum diisi)';
+            document.getElementById('flipPageIndo').textContent = store.fields[`bi_lk7_h${currentFlipPage}_ind`] ? `“${store.fields[`bi_lk7_h${currentFlipPage}_ind`]}”` : '(Kalimat Bahasa Indonesia)';
+            document.getElementById('flipPageIbu').textContent = store.fields[`bi_lk7_h${currentFlipPage}_ibu`] ? `“${store.fields[`bi_lk7_h${currentFlipPage}_ibu`]}”` : '(Padanan bahasa ibu)';
+            document.getElementById('flipPrevBtn').disabled = (currentFlipPage === 1);
+            document.getElementById('flipNextBtn').disabled = (currentFlipPage === 6);
+        }
+
+        function updateLk8WordCount() {
+            const text = `${store.fields['bi_lk8_d_1'] || ''} ${store.fields['bi_lk8_d_2'] || ''} ${store.fields['bi_lk8_d_3'] || ''}`.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            const badge = document.getElementById('wordCountBadge');
+            badge.textContent = `${words} kata`;
+            badge.className = (words >= 150 && words <= 200)
+                ? 'text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700'
+                : 'text-xs font-bold px-2.5 py-1 rounded-full bg-slate-200 text-slate-700';
+        }
+
+        // =========================================================================
+        // 6. EKSPOR WORD (.DOC) UNTUK KEDUA MATA KULIAH
+        // =========================================================================
+        function esc(s) {
+            if (!s) return '-';
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+        }
+
+        function buildHeaderDoc(courseTitle) {
+            return `
+                <div style="text-align:center; border-bottom:2px solid #0f172a; padding-bottom:8px; margin-bottom:12px;">
+                    <h2 style="margin:0; color:#0f172a; font-size:14pt;">PAK SYAFF CLASSROOM — LEMBAR KERJA MAHASISWA</h2>
+                    <p style="margin:3px 0 0 0; font-size:10.5pt; font-weight:bold; color:#b91c1c;">${courseTitle}</p>
+                </div>
+                <table style="width:100%; border-collapse:collapse; margin-bottom:12px; font-size:10pt;">
+                    <tr>
+                        <td style="border:1px solid #94a3b8; padding:5px; background:#f1f5f9; width:20%;"><strong>Nama</strong></td>
+                        <td style="border:1px solid #94a3b8; padding:5px; width:30%;">${esc(store.shared.nama)}</td>
+                        <td style="border:1px solid #94a3b8; padding:5px; background:#f1f5f9; width:20%;"><strong>NIM</strong></td>
+                        <td style="border:1px solid #94a3b8; padding:5px; width:30%;">${esc(store.shared.nim)}</td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #94a3b8; padding:5px; background:#f1f5f9;"><strong>Kelompok</strong></td>
+                        <td style="border:1px solid #94a3b8; padding:5px;">${esc(store.shared.kelompok)}</td>
+                        <td style="border:1px solid #94a3b8; padding:5px; background:#f1f5f9;"><strong>Sekolah / Tgl</strong></td>
+                        <td style="border:1px solid #94a3b8; padding:5px;">${esc(store.shared.sekolah)} (${esc(store.shared.tanggal)})</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        function extractSectionHtmlForWord(course, num) {
+            const sec = document.getElementById(`${course}-lk-${num}`);
+            if (!sec) return '';
+            const clone = sec.cloneNode(true);
+            clone.querySelectorAll('.no-print').forEach(el => el.remove());
+
+            // Replace inputs/textareas/selects with static text for clean Word rendering
+            clone.querySelectorAll('textarea, input[type="text"], input[type="number"], input[type="url"], input[type="date"]').forEach(inp => {
+                const k = inp.getAttribute('data-field');
+                const val = k ? store.fields[k] : inp.value;
+                const div = document.createElement('div');
+                div.style.cssText = 'border:1px solid #cbd5e1; padding:5px; background:#ffffff; min-height:20px;';
+                div.innerHTML = esc(val);
+                inp.replaceWith(div);
+            });
+
+            clone.querySelectorAll('select').forEach(sel => {
+                const k = sel.getAttribute('data-field');
+                const val = k ? store.fields[k] : sel.value;
+                const span = document.createElement('strong');
+                span.textContent = val || '-';
+                sel.replaceWith(span);
+            });
+
+            clone.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(chk => {
+                const k = chk.getAttribute('data-field');
+                const isChecked = chk.type === 'radio' ? (store.fields[k] === chk.value) : Boolean(store.fields[k]);
+                const mark = document.createElement('span');
+                mark.textContent = isChecked ? ' [✓] ' : ' [ ] ';
+                chk.replaceWith(mark);
+            });
+
+            return clone.innerHTML;
+        }
+
+        function saveAsWordDoc(htmlBody, filename) {
+            const fullHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:Calibri,Arial,sans-serif;font-size:10.5pt;}table{width:100%;border-collapse:collapse;margin-bottom:10px;}th,td{border:1px solid #64748b;padding:5px;text-align:left;vertical-align:top;}th{background:#f1f5f9;}</style></head><body>${htmlBody}</body></html>`;
+            const blob = new Blob(['\ufeff', fullHtml], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadCurrentWord() {
+            const cfg = coursesConfig[activeCourse];
+            const num = activeLkMap[activeCourse];
+            const filename = `${buildFormattedTaskName()}.doc`;
+            const content = buildHeaderDoc(cfg.fullTitle) + extractSectionHtmlForWord(activeCourse, num);
+            saveAsWordDoc(content, filename);
+            showToast(`Berhasil mengunduh ${filename}`, 'success');
+        }
+
+        function exportAllCourseWord() {
+            const cfg = coursesConfig[activeCourse];
+            const namaRaw = (store.shared.nama || 'nama lengkap').trim().replace(/[\\/:*?"<>|]/g, '');
+            const nimRaw = (store.shared.nim || 'nim').trim().replace(/[\\/:*?"<>|]/g, '');
+            const filename = `${namaRaw}_${nimRaw}_Portofolio Lengkap ${cfg.name}.doc`;
+            let body = buildHeaderDoc(cfg.fullTitle);
+            for (let i = 1; i <= 8; i++) {
+                body += extractSectionHtmlForWord(activeCourse, i);
+                if (i < 8) body += `<br clear="all" style="page-break-before:always" />`;
+            }
+            saveAsWordDoc(body, filename);
+            showToast(`Portofolio lengkap ${cfg.name} berhasil diunduh!`, 'success');
+        }
+
+        // =========================================================================
+        // 7. PANDUAN KELAS, TIMER, JSON DRAF & MOBILE SIDEBAR
+        // =========================================================================
+        function openClassroomGuide() {
+            const modalTitle = document.getElementById('guideModalTitle');
+            const modalBody = document.getElementById('guideModalBody');
+            if (activeCourse === 'pkn') {
+                modalTitle.textContent = 'Peta 8 Pertemuan & Rubrik — PKn × Basic Computer';
+                modalBody.innerHTML = `
+                    <p><strong>Pola Pembelajaran P-A-N-C-A:</strong> Pemantik · Aktivitas Jelajah · Nilai (Diskusi) · Cipta Produk · Arefleksi.</p>
+                    <table class="w-full text-xs border border-slate-200">
+                        <thead class="bg-slate-100 font-bold"><tr><th class="p-2 border">Pertemuan</th><th class="p-2 border">Nilai PKn</th><th class="p-2 border">Keterampilan Komputer</th><th class="p-2 border">Produk Utama</th></tr></thead>
+                        <tbody>
+                            <tr><td class="p-2 border font-bold">P1</td><td class="p-2 border">Sila 1: Toleransi</td><td class="p-2 border">Perangkat, File, Cloud</td><td class="p-2 border">Folder & Profil Digital</td></tr>
+                            <tr><td class="p-2 border font-bold">P2</td><td class="p-2 border">Sila 2: Empati</td><td class="p-2 border">Pengolah Kata (Docs)</td><td class="p-2 border">Kode Etik Digital Kelas</td></tr>
+                            <tr><td class="p-2 border font-bold">P3</td><td class="p-2 border">Sila 3: Anti-Hoaks</td><td class="p-2 border">Verifikasi & Sitasi</td><td class="p-2 border">Laporan Cek Fakta & Poster</td></tr>
+                            <tr><td class="p-2 border font-bold">P4</td><td class="p-2 border">Sila 4: Musyawarah</td><td class="p-2 border">Docs & Forms Kolaboratif</td><td class="p-2 border">Survei & Notulen Rapat</td></tr>
+                            <tr><td class="p-2 border font-bold">P5</td><td class="p-2 border">Sila 5: Keadilan Sosial</td><td class="p-2 border">Spreadsheet & Grafik</td><td class="p-2 border">Analisis Data Kesenjangan</td></tr>
+                            <tr><td class="p-2 border font-bold">P6</td><td class="p-2 border">UUD 1945 & UU ITE/PDP</td><td class="p-2 border">Keamanan Akun & 2FA</td><td class="p-2 border">Audit Akun & 3 Slide Kasus</td></tr>
+                            <tr><td class="p-2 border font-bold">P7</td><td class="p-2 border">Bela Negara</td><td class="p-2 border">Desain Media Ajar SD</td><td class="p-2 border">Media Pembelajaran SD</td></tr>
+                            <tr><td class="p-2 border font-bold">P8</td><td class="p-2 border">Komitmen Warga Negara</td><td class="p-2 border">Portofolio & Showcase</td><td class="p-2 border">Portofolio & Janji Pancasila</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs">
+                        <strong>Bobot Penilaian:</strong> Produk P1–P6 (42%) · Proyek Aksi Nyata P7 (20%) · Portofolio & Showcase P8 (20%) · Sikap & Keaktifan (18%).
+                    </div>
+                `;
+            } else {
+                const lk = activeLkMap.bindo;
+                const guides = {
+                    1: '<strong>Kasus Bu Rina (LK 1):</strong> Mengajar 28 siswa kelas 1 SD di wilayah pinggiran; 80% berbahasa ibu daerah; belum ada pojok baca; orang tua kooperatif lewat grup pesan singkat. Manfaatkan bahasa ibu sebagai jembatan literasi.',
+                    2: '<strong>Kasus Dimas (LK 2):</strong> Usia 6 tahun 4 bulan; mampu menepuk suku kata namun tertukar bunyi p/b dan huruf b/d; aktif bercerita bahasa daerah; pegangan pensil masih palmar grasp; menyukai buku bergambar warna-warni.',
+                    3: '<strong>Panduan Metode (LK 3):</strong> Bandingkan metode Eja (nama huruf), Bunyi/Fonik (bunyi fonem), Kata Lembaga (urai kata), Global (kalimat bergambar), dan SAS (Struktural Analitik Sintetik).',
+                    4: '<strong>Panduan Modul 35 Menit (LK 4):</strong> Gunakan kata kerja terukur (melafalkan, memasangkan, membaca nyaring), rancang diferensiasi bagi siswa yang belum kenal huruf vs sudah lancar, dan buat sketsa media di kanvas.',
+                    5: '<strong>Panduan Asesmen (LK 5):</strong> Lakukan asesmen individual 3–5 menit secara santai meliputi pengenalan 10 huruf acak, suku kata KV-KV, kelancaran kalimat, dan pemahaman isi bacaan.',
+                    6: '<strong>Contoh Kesalahan Tulisan (LK 6):</strong> Contoh A (tulisan melayang tidak menyentuh garis), Contoh B (pembalikan huruf b/d & penghilangan vokal), Contoh C (tanpa spasi antarkata & campur huruf kapital).',
+                    7: '<strong>Buku Cerita Dwibahasa (LK 7):</strong> Pilih tema IPAS kelas awal, gunakan kalimat berulang 6 halaman, dan sertakan padanan bahasa ibu setempat.',
+                    8: '<strong>Panduan Gelar Karya (LK 8):</strong> Pastikan seluruh produk LK 1–7 lengkap dan refleksi akhir memenuhi 150–200 kata.'
+                };
+                modalTitle.textContent = `Studi Kasus & Panduan — Bahasa Indonesia LK ${lk}`;
+                modalBody.innerHTML = `<div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">${guides[lk]}</div>`;
+            }
+            document.getElementById('guideModal').classList.remove('hidden');
+        }
+        function closeGuideModal() { document.getElementById('guideModal').classList.add('hidden'); }
+
+        // Timer
+        let timerSeconds = 180 * 60;
+        let timerInterval = null;
+        function updateTimerDisplay() {
+            const m = Math.floor(timerSeconds / 60);
+            const s = timerSeconds % 60;
+            document.getElementById('timerDisplay').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+        function toggleTimer() {
+            const btn = document.getElementById('timerBtn');
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                btn.textContent = 'Lanjut';
+            } else {
+                btn.textContent = 'Jeda';
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) { timerSeconds--; updateTimerDisplay(); }
+                    else { clearInterval(timerInterval); timerInterval = null; showToast('Waktu sesi selesai!', 'info'); }
+                }, 1000);
+            }
+        }
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timerSeconds = coursesConfig[activeCourse].timerMinutes * 60;
+            updateTimerDisplay();
+            document.getElementById('timerBtn').textContent = 'Mulai';
+        }
+
+        // JSON Collaboration
+        function exportJsonDraft() {
+            const cleanName = (store.shared.nama || 'Mahasiswa').replace(/[^a-zA-Z0-9_-]/g, '_');
+            const blob = new Blob([JSON.stringify(store, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `PakSyaffClassroom_Draf_${cleanName}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('File draf (.json) berhasil disimpan!', 'success');
+        }
+        function importJsonDraft(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const parsed = JSON.parse(ev.target.result);
+                    if (parsed.shared) store.shared = { ...store.shared, ...parsed.shared };
+                    if (parsed.fields) store.fields = { ...store.fields, ...parsed.fields };
+                    saveStore();
+                    loadStore();
+                    renderSidebarNav();
+                    showToast('Draf kelompok berhasil dimuat!', 'success');
+                } catch (err) { showToast('File draf tidak valid.', 'error'); }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        }
+
+        // Reset Current Course
+        function confirmResetCourse() { document.getElementById('resetModal').classList.remove('hidden'); }
+        function closeResetModal() { document.getElementById('resetModal').classList.add('hidden'); }
+        function executeResetCourse() {
+            const prefix = activeCourse === 'pkn' ? 'pkn_' : 'bi_';
+            Object.keys(store.fields).forEach(k => { if (k.startsWith(prefix)) delete store.fields[k]; });
+            document.querySelectorAll(`#course-workspace-${activeCourse} [data-field]`).forEach(el => {
+                if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+                else el.value = '';
+            });
+            if (activeCourse === 'pkn') { recalcP5Spreadsheet(); recalcP8Eval(); }
+            else { removeLk4Image(); updateLk8WordCount(); }
+            saveStore();
+            renderSidebarNav();
+            closeResetModal();
+            showToast('Isian kelas berhasil dibersihkan.', 'info');
+        }
+
+        // Mobile Sidebar
+        const leftSidebar = document.getElementById('leftSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        document.getElementById('mobileMenuBtn').onclick = () => { leftSidebar.classList.remove('-translate-x-full'); sidebarOverlay.classList.remove('hidden'); };
+        function closeSidebarMobile() { leftSidebar.classList.add('-translate-x-full'); sidebarOverlay.classList.add('hidden'); }
+        document.getElementById('closeSidebarBtn').onclick = closeSidebarMobile;
+        sidebarOverlay.onclick = closeSidebarMobile;
+
+        function showToast(msg, type = 'success') {
+            const c = document.getElementById('toastContainer');
+            const t = document.createElement('div');
+            const bg = type === 'error' ? 'bg-rose-600' : type === 'info' ? 'bg-slate-800' : 'bg-emerald-600';
+            t.className = `${bg} text-white px-4 py-2.5 rounded-xl shadow-lg text-xs font-semibold flex items-center gap-2 transition-all duration-300`;
+            t.innerHTML = `<i class="fa-solid fa-circle-info"></i><span>${msg}</span>`;
+            c.appendChild(t);
+            setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2800);
+        }
+
+        // Boot
+        window.onload = function() {
+            initDynamicTables();
+            attachAutoSave();
+            loadStore();
+            switchCourse('pkn');
+        };
+    </script>
+</body>
+</html>
